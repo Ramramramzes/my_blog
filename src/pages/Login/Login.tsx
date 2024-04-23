@@ -32,10 +32,14 @@ export function Login() {
 
   const modeChangeHandlerReg = () => {
     dispatch(setInputMode('registration'));
+    dispatch(setLogin(''));
+    dispatch(setPassword(''));
   }
 
   const modeChangeHandlerLog = () => {
     dispatch(setInputMode('login'));
+    dispatch(setLogin(''));
+    dispatch(setPassword(''));
   }
 
   const submitHamdler = (event:FormEvent<HTMLFormElement>) => {
@@ -50,9 +54,10 @@ export function Login() {
           <span className={styles.mode} style={LogingState.inputMode != 'registration' ? {opacity: .4} : {}} onClick={modeChangeHandlerReg}>Регистрация</span>
         </div>
         <label htmlFor="login"></label>
-        <input type="text" name="login" placeholder="Логин" onChange={loginChangeHandler}/>
+        <input type="text" name="login" placeholder="Логин" onChange={loginChangeHandler} value={LogingState.login}/>
         <label htmlFor="password"></label>
-        <input type="text" name="password" placeholder="Пароль" onChange={passwordChangeHandler}/>
+        <input type="text" name="password" placeholder="Пароль" onChange={passwordChangeHandler} value={LogingState.password}/>
+        {LogingState.error != ''? <div className={styles.error}>{LogingState.error}</div> : ''}
         {LogingState.inputMode === 'login' ? <LoginButton/> : <RegisterButton />}
       </form>
     </div>

@@ -5,6 +5,7 @@ interface ILogin{
   password: string;
   inputMode: string;
   userFingerprint: string;
+  error: string;
 }
 
 const initialState: ILogin = {
@@ -12,6 +13,7 @@ const initialState: ILogin = {
   password: '',
   inputMode: 'login',
   userFingerprint: '',
+  error: '',
 }
 
 const loginSlice = createSlice({
@@ -29,9 +31,12 @@ const loginSlice = createSlice({
     },
     setFingerprint: (state, action) => {
       state.userFingerprint = action.payload;
-    }
+    },
+    setErrorState: (state, action) => {
+      state.error = action.payload;
+    },
   }
 })
 
-export const { setLogin, setPassword, setInputMode, setFingerprint } = loginSlice.actions;
+export const { setLogin, setPassword, setInputMode, setFingerprint, setErrorState } = loginSlice.actions;
 export default loginSlice.reducer
