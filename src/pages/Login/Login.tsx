@@ -4,6 +4,8 @@ import { setFingerprint, setInputMode, setLogin, setPassword } from "../../store
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store";
 import FingerprintJS from '@fingerprintjs/fingerprintjs'
+import { RegisterButton } from '../../Components/RegisterButton';
+import { LoginButton } from '../../Components/LoginButton';
 const fpPromise = FingerprintJS.load();
 
 
@@ -38,7 +40,6 @@ export function Login() {
 
   const submitHamdler = (event:FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log(LogingState.userFingerprint);
   }
 
   return (
@@ -52,7 +53,7 @@ export function Login() {
         <input type="text" name="login" placeholder="Логин" onChange={loginChangeHandler}/>
         <label htmlFor="password"></label>
         <input type="text" name="password" placeholder="Пароль" onChange={passwordChangeHandler}/>
-        {LogingState.inputMode === 'login' ? <input type="submit" value='Войти'/> : <input type="submit" value='Создать аккаунт'/>}
+        {LogingState.inputMode === 'login' ? <LoginButton/> : <RegisterButton />}
       </form>
     </div>
   );
