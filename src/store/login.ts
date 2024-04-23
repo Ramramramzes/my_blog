@@ -3,11 +3,13 @@ import { createSlice } from "@reduxjs/toolkit";
 interface ILogin{
   login: string;
   password: string;
+  inputMode: string;
 }
 
 const initialState: ILogin = {
   login: '',
   password: '',
+  inputMode: 'login',
 }
 
 const loginSlice = createSlice({
@@ -20,8 +22,11 @@ const loginSlice = createSlice({
     setPassword: (state, action) => {
       state.password = action.payload;
     },
+    setInputMode: (state, action) => {
+      state.inputMode = action.payload;
+    },
   }
 })
 
-export const { setLogin, setPassword } = loginSlice.actions;
+export const { setLogin, setPassword, setInputMode } = loginSlice.actions;
 export default loginSlice.reducer

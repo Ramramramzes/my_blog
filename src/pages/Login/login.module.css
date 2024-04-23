@@ -1,0 +1,22 @@
+.formBlock{
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.form{
+  display: flex;
+  flex-direction: column;
+}
+
+.mode{
+  cursor: pointer;
+}
+
+.modeBlock{
+  width: inherit;
+  display: flex;
+  justify-content: space-between;
+}

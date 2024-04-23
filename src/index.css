@@ -1,0 +1,17 @@
+@import 'node_modules/modern-normalize/modern-normalize.css';
+input{
+  outline: none;
+}
+button{
+  cursor: pointer;
+}
+
+input[type="submit"]{
+  cursor: pointer;
+}
+
+ul{
+  padding: 0px;
+  margin: 0px;
+  list-style: none;
+}
