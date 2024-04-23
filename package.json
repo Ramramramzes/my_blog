@@ -11,6 +11,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "@fingerprintjs/fingerprintjs": "^4.2.2",
     "@reduxjs/toolkit": "^2.2.3",
     "axios": "^1.6.8",
     "express": "^4.19.2",

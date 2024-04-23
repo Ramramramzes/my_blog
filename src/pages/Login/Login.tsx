@@ -1,13 +1,25 @@
 import styles from './login.module.css'
-import { ChangeEvent, FormEvent } from "react";
-import { setInputMode, setLogin, setPassword } from "../../store/login";
+import { ChangeEvent, FormEvent, useEffect } from "react";
+import { setFingerprint, setInputMode, setLogin, setPassword } from "../../store/login";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store";
+import FingerprintJS from '@fingerprintjs/fingerprintjs'
+const fpPromise = FingerprintJS.load();
+
+
 
 export function Login() {
   const LogingState = useSelector((state: RootState) => state.login);
   const dispatch = useDispatch<AppDispatch>();
 
+  useEffect(() => {
+    (async () => {
+      const fp = await fpPromise
+      const result = await fp.get()
+      dispatch(setFingerprint(result.visitorId))
+    })()
+  },[])
+  
   const loginChangeHandler = (event:ChangeEvent<HTMLInputElement>) => {
     dispatch(setLogin(event.target.value));
   }
@@ -26,6 +38,7 @@ export function Login() {
 
   const submitHamdler = (event:FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    console.log(LogingState.userFingerprint);
   }
 
   return (
