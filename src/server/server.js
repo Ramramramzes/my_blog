@@ -57,6 +57,18 @@ app.get('/getblogpost',(req,res)=>{
   });
 })
 
+app.get('/checktoken',(req,res)=>{
+  const sql = `SELECT * FROM \`blog_table\` WHERE \`token\` = '${req.query.token}'`
+
+  connection.query(sql, (error, results) => {
+    if (error) {
+      res.status(500).json({ error: 'Ошибка при выполнении запроса к базе данных' });
+      console.log(error.code, error.message);
+    } else {
+      res.send(results);
+    }
+  });
+})
 
 
 
