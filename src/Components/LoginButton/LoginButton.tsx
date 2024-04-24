@@ -3,7 +3,7 @@ import { checkOneUser } from "../../hooks/useCheckOne";
 import { AppDispatch, RootState } from "../../store/store";
 import { useNavigate } from "react-router-dom";
 import { setErrorState, setLogin, setPassword } from "../../store/login";
-import { setMainId, setMainLogin } from "../../store/blog";
+import { setmainUserId, setMainLogin } from "../../store/blog";
 
 export function LoginButton() {
   const LogingState = useSelector((state: RootState) => state.login);
@@ -15,7 +15,7 @@ export function LoginButton() {
     if(checkOne.length != 0){
       navigate('/blog');
       dispatch(setMainLogin(LogingState.login));
-      dispatch(setMainId(checkOne[0].id));
+      dispatch(setmainUserId(checkOne[0].id));
       dispatch(setLogin(''));
       dispatch(setPassword(''));
       dispatch(setErrorState(''));

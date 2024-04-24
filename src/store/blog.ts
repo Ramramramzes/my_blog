@@ -2,20 +2,20 @@ import { createSlice } from "@reduxjs/toolkit";
 
 interface IBlog{
   mainLogin: string;
-  mainId: string;
+  mainUserId: string;
 }
 
 const initialState:IBlog = {
   mainLogin: '',
-  mainId: '',
+  mainUserId: '',
 }
 
 const blogSlice = createSlice({
   name: 'Blog',
   initialState,
   reducers: {
-    setMainId: (state, action) => {
-      state.mainId = action.payload;
+    setmainUserId: (state, action) => {
+      state.mainUserId = action.payload;
     },
     setMainLogin: (state, action) => {
       state.mainLogin = action.payload;
@@ -23,5 +23,5 @@ const blogSlice = createSlice({
   }
 })
 
-export const { setMainId, setMainLogin } = blogSlice.actions;
+export const { setmainUserId, setMainLogin } = blogSlice.actions;
 export default blogSlice.reducer
