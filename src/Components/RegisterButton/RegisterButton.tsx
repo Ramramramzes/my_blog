@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store";
 import { checkUsers } from "../../hooks/useCheckUsers";
-import { addUser } from "../../hooks/addUser";
+import { addUser } from "../../hooks/useAddUser";
 import { useNavigate } from "react-router-dom";
 import { setErrorState, setPassword } from "../../store/login";
 
@@ -18,11 +18,9 @@ export function RegisterButton() {
         dispatch(setPassword(''));
         navigate('/blog');
       }else{
-        console.log('Логин уже существует');
         dispatch(setErrorState('Логин уже существует'));
       }
     }else{
-      console.log('Пароль слишком короткий');
       dispatch(setErrorState('Пароль слишком короткий'));
     }
   }

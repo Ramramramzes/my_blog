@@ -1,6 +1,6 @@
 import axios from "axios";
 
-interface IProps{
+export interface IProps{
   login: string;
   password: string;
   userFingerprint: string;

@@ -17,6 +17,19 @@ app.get('/checkAllUsers', (req, res) => {
   });
 });
 
+app.get('/checkOneUser', (req, res) => {
+  const sql = `SELECT \`login\`, \`pass\` FROM \`blog_table\` WHERE \`login\` = '${req.query.login}' AND \`pass\` = '${req.query.password}'`
+
+  connection.query(sql, (error, results) => {
+    if (error) {
+      res.status(500).json({ error: 'Ошибка при выполнении запроса к базе данных' });
+      console.log(error.code, error.message);
+    } else {
+      res.send(results);
+    }
+  });
+});
+
 app.post('/addUser', (req, res) => {
   const { login, password, userFingerprint } = req.body;
   const sql = `INSERT INTO \`blog_table\`(\`login\`, \`pass\`, \`token\`) VALUES (?, ?, ?);`;

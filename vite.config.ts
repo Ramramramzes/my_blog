@@ -16,6 +16,7 @@ export default defineConfig({
     proxy:{
       '/checkAllUsers': SERVER,
       '/addUser': SERVER,
+      '/checkOneUser': SERVER,
     }
   }
 })

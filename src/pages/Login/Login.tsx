@@ -1,6 +1,6 @@
 import styles from './login.module.css'
 import { ChangeEvent, FormEvent, useEffect } from "react";
-import { setFingerprint, setInputMode, setLogin, setPassword } from "../../store/login";
+import { setErrorState, setFingerprint, setInputMode, setLogin, setPassword } from "../../store/login";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store";
 import FingerprintJS from '@fingerprintjs/fingerprintjs'
@@ -34,12 +34,16 @@ export function Login() {
     dispatch(setInputMode('registration'));
     dispatch(setLogin(''));
     dispatch(setPassword(''));
+    dispatch(setErrorState(''));
+
   }
 
   const modeChangeHandlerLog = () => {
     dispatch(setInputMode('login'));
     dispatch(setLogin(''));
     dispatch(setPassword(''));
+    dispatch(setErrorState(''));
+
   }
 
   const submitHamdler = (event:FormEvent<HTMLFormElement>) => {
