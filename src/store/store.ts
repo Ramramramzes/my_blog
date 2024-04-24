@@ -1,7 +1,9 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit'
 import loginReducer from './login'
+import blogReducer from './blog'
 const rootReducer = combineReducers({
   login: loginReducer,
+  blog: blogReducer,
 })
 
 const store = configureStore({

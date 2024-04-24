@@ -18,7 +18,7 @@ app.get('/checkAllUsers', (req, res) => {
 });
 
 app.get('/checkOneUser', (req, res) => {
-  const sql = `SELECT \`login\`, \`pass\` FROM \`blog_table\` WHERE \`login\` = '${req.query.login}' AND \`pass\` = '${req.query.password}'`
+  const sql = `SELECT * FROM \`blog_table\` WHERE \`login\` = '${req.query.login}' AND \`pass\` = '${req.query.password}'`
 
   connection.query(sql, (error, results) => {
     if (error) {
