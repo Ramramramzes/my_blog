@@ -1,17 +1,8 @@
-import React from 'react';
-import styles from './profile.css';
+import styles from './profile.module.css';
 
 export function Profile() {
-
-  const stylesDiv = {
-    backgroundColor: 'black',
-    color: 'white',
-    height: '100vh',
-    width: '20%',
-  }
-
   return (
-    <div style={stylesDiv}>
+    <div className={styles.profile}>
       Profile
     </div>
   );

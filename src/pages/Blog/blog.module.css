@@ -1,0 +1,9 @@
+.blog{
+  display: flex;
+}
+
+.rightPart{
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+}
