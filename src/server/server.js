@@ -44,6 +44,21 @@ app.post('/addUser', (req, res) => {
   });
 });
 
+app.get('/getblogpost',(req,res)=>{
+  const sql = `SELECT * FROM \`blog_post\` WHERE \`user_id\` = ${req.query.id}`
+
+  connection.query(sql, (error, results) => {
+    if (error) {
+      res.status(500).json({ error: 'Ошибка при выполнении запроса к базе данных' });
+      console.log(error.code, error.message);
+    } else {
+      res.send(results);
+    }
+  });
+})
+
+
+
 
 app.listen(port, () => {
   console.log(`Запущен на ${port} порту`);

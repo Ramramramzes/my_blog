@@ -3,9 +3,9 @@ import { useNavigate } from 'react-router-dom';
 
 
 const buttons: {name:string,link: string}[] = [
-  {name: 'Мой блог', link: '/blog'},
-  {name: 'Новости', link: '/blog'},
-  {name: 'Друзья', link: '/blog'},
+  {name: 'Мой блог', link: '/'},
+  {name: 'Новости', link: '/'},
+  {name: 'Друзья', link: '/'},
 ]
 
 export function Header() {
