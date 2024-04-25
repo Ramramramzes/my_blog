@@ -19,6 +19,7 @@ export default defineConfig({
       '/checkOneUser': SERVER,
       '/getblogpost': SERVER,
       '/checktoken': SERVER,
+      '/getuser': SERVER,
     }
   }
 })

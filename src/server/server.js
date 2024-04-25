@@ -70,6 +70,19 @@ app.get('/checktoken',(req,res)=>{
   });
 })
 
+app.get('/getuser',(req,res)=>{
+  const sql = `SELECT * FROM \`blog_table\` WHERE \`id\` = '${req.query.id}'`
+
+  connection.query(sql, (error, results) => {
+    if (error) {
+      res.status(500).json({ error: 'Ошибка при выполнении запроса к базе данных' });
+      console.log(error.code, error.message);
+    } else {
+      res.send(results);
+    }
+  });
+})
+
 
 
 app.listen(port, () => {
