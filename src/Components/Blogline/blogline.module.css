@@ -16,6 +16,10 @@
   width: 80%;
 }
 
+.listItemLast{
+  width: 80%;
+}
+
 .userInfo{
   width: 100%;
   display: flex;

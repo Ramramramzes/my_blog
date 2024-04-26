@@ -20,6 +20,7 @@ export default defineConfig({
       '/getblogpost': SERVER,
       '/checktoken': SERVER,
       '/getuser': SERVER,
+      '/postnewpost': SERVER,
     }
   }
 })
