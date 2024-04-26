@@ -1,6 +1,8 @@
 .profile{
+  position: fixed;
+  left: 0;
   width: 20%;
   height: 100vh;
   color: white;
-  background-color: black;
+  background-color: rgba(0, 0, 0, 0.482);
 }
