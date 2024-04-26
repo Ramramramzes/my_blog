@@ -1,24 +1,24 @@
 import styles from './blogline.module.css'
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store";
-import { useBlogPost } from "../../hooks/useGetBlogPost";
+import { getPostDataById } from "../../hooks/getPostDataById";
 import { useEffect } from "react";
 import { setPostData, setUserData} from "../../store/blog";
 import { useNavigate } from "react-router-dom";
 import { PostPopup } from '../PostPopup';
-import { getUser } from '../../hooks/useGetUser';
+import { getUser } from '../../hooks/getUser';
 
 export function Blogline() {
   const BlogState = useSelector((state: RootState) => state.blog);
   const dispatch = useDispatch<AppDispatch>();
   const navigation = useNavigate();
-  const allPost = useBlogPost(Number(BlogState.viewId))
+  const allPost = getPostDataById(Number(BlogState.viewId))
   const userData = getUser(Number(BlogState.viewId))
 
   useEffect(() => {
     dispatch(setPostData(allPost))
     dispatch(setUserData(userData))
-  },[allPost])
+  },[allPost,userData,dispatch])
   
 
   return (

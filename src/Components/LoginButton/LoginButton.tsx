@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { checkOneUser } from "../../hooks/useCheckOne";
+import { checkOneUser } from "../../services/checkOne";
 import { AppDispatch, RootState } from "../../store/store";
 import { useNavigate } from "react-router-dom";
 import { setErrorState, setLogin, setPassword } from "../../store/login";

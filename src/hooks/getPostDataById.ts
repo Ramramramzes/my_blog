@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-export const useBlogPost = (id:number) => {
+export const getPostDataById = (id:number) => {
   const [data,setData] = useState([]);
   
   useEffect(() => {

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ChangeEvent, useEffect, useRef } from 'react';
 import { AppDispatch, RootState } from '../../store/store';
 import { changeAddPost, changeAddPostText } from '../../store/blog';
-import { postNewPost } from '../../hooks/usePostNewPost';
+import { postNewPost } from '../../services/postNewPost';
 
 export const PostPopup = () => {
   const BlogState = useSelector((state: RootState) => state.blog);

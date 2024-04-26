@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store";
-import { useCheckToken } from "../../hooks/useCheckToken";
+import { useCheckToken } from "../../services/checkToken";
 import { setViewId, setmainUserId } from "../../store/blog";
 import { useNavigate } from "react-router-dom";
 

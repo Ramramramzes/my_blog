@@ -1,10 +1,10 @@
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store";
-import { checkUsers } from "../../hooks/useCheckUsers";
-import { addUser } from "../../hooks/useAddUser";
+import { checkUsers } from "../../services/checkUsers";
+import { addUser } from "../../services/addUser";
 import { useNavigate } from "react-router-dom";
 import { setErrorState, setPassword } from "../../store/login";
-import { checkOneUser } from "../../hooks/useCheckOne";
+import { checkOneUser } from "../../services/checkOne";
 import { setMainLogin, setViewId, setmainUserId } from "../../store/blog";
 
 export function RegisterButton() {
