@@ -31,10 +31,10 @@ app.get('/checkOneUser', (req, res) => {
 });
 
 app.post('/addUser', (req, res) => {
-  const { login, password, userFingerprint } = req.body;
-  const sql = `INSERT INTO \`blog_table\`(\`login\`, \`pass\`, \`token\`) VALUES (?, ?, ?);`;
+  const { login, password, userFingerprint, avatar } = req.body;
+  const sql = `INSERT INTO \`blog_table\`(\`login\`, \`pass\`, \`avatar\`, \`token\`) VALUES (?, ?, ?, ?);`;
 
-  connection.query(sql, [login, password, userFingerprint], (error, results) => {
+  connection.query(sql, [login, password, avatar, userFingerprint], (error, results) => {
     if (error) {
       res.status(500).json({ error: 'Ошибка при выполнении запроса к базе данных' });
       console.error(error.code, error.message);

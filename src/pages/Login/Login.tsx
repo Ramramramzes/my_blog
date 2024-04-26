@@ -6,32 +6,12 @@ import { AppDispatch, RootState } from "../../store/store";
 import FingerprintJS from '@fingerprintjs/fingerprintjs'
 import { RegisterButton } from '../../Components/RegisterButton';
 import { LoginButton } from '../../Components/LoginButton';
-import { useCheckToken } from '../../hooks/useCheckToken';
-import { useNavigate } from 'react-router-dom';
-import { setmainUserId } from '../../store/blog';
 const fpPromise = FingerprintJS.load();
 
 export function Login() {
   const LogingState = useSelector((state: RootState) => state.login);
-  const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
-
-  useEffect(() =>{
-    async function checkFetch(){
-      try {
-        const res = await useCheckToken(LogingState.userFingerprint)
-        if(res != 0 && res != -1){
-          dispatch(setmainUserId(res));
-          navigate('/blog');
-        }
-      }catch(err){
-        console.log(err);
-      }
-    }
-
-    checkFetch()
-  },[LogingState.userFingerprint])
-
+  
   useEffect(() => {
     (async () => {
       const fp = await fpPromise
@@ -67,19 +47,21 @@ export function Login() {
   }
 
   return (
-    <div className={styles.formBlock}>
-      <form onSubmit={submitHamdler} className={styles.form}>
-        <div className={styles.modeBlock}>
-          <span className={styles.mode} style={LogingState.inputMode != 'login' ? {opacity: .4} : {}} onClick={modeChangeHandlerLog}>Вход</span>
-          <span className={styles.mode} style={LogingState.inputMode != 'registration' ? {opacity: .4} : {}} onClick={modeChangeHandlerReg}>Регистрация</span>
-        </div>
-        <label htmlFor="login"></label>
-        <input type="text" name="login" placeholder="Логин" onChange={loginChangeHandler} value={LogingState.login}/>
-        <label htmlFor="password"></label>
-        <input type="text" name="password" placeholder="Пароль" onChange={passwordChangeHandler} value={LogingState.password}/>
-        {LogingState.error != ''? <div className={styles.error}>{LogingState.error}</div> : ''}
-        {LogingState.inputMode === 'login' ? <LoginButton/> : <RegisterButton />}
-      </form>
-    </div>
+    <>
+      <div className={styles.formBlock}>
+        <form onSubmit={submitHamdler} className={styles.form}>
+          <div className={styles.modeBlock}>
+            <span className={styles.mode} style={LogingState.inputMode != 'login' ? {opacity: .4} : {}} onClick={modeChangeHandlerLog}>Вход</span>
+            <span className={styles.mode} style={LogingState.inputMode != 'registration' ? {opacity: .4} : {}} onClick={modeChangeHandlerReg}>Регистрация</span>
+          </div>
+          <label htmlFor="login"></label>
+          <input type="text" name="login" placeholder="Логин" onChange={loginChangeHandler} value={LogingState.login}/>
+          <label htmlFor="password"></label>
+          <input type="text" name="password" placeholder="Пароль" onChange={passwordChangeHandler} value={LogingState.password}/>
+          {LogingState.error != ''? <div className={styles.error}>{LogingState.error}</div> : ''}
+          {LogingState.inputMode === 'login' ? <LoginButton/> : <RegisterButton />}
+        </form>
+      </div>
+    </>
   );
 }

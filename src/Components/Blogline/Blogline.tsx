@@ -13,28 +13,22 @@ export function Blogline() {
   const navigation = useNavigate();
 
   useEffect(() => {
-    if(BlogState.mainUserId){
+    if(BlogState.viewId){
       async function getData() {
         try{
-          const resPost = await useBlogPost(Number(BlogState.mainUserId))
+          const resPost = await useBlogPost(Number(BlogState.viewId))
           dispatch(setPostData(resPost))
-          const resUser = await getUser(Number(BlogState.mainUserId))
+          const resUser = await getUser(Number(BlogState.viewId))
           dispatch(setUserData(resUser))
         }catch(err){
           console.log(err);
         }
       }
-
-      BlogState.mainUserId && (getData())
+      
+      BlogState.viewId && (getData())
     }
-    
-  },[BlogState.mainUserId])
-  
-  useEffect(() => {
-    if(!BlogState.mainUserId){
-      navigation('/')
-    }
-  },[])
+    console.log(`main: ${BlogState.mainUserId} , view: ${BlogState.viewId}`);
+  },[BlogState.viewId])
   
   return (
     <ul className={styles.list}>

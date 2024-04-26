@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 interface IBlog {
   mainLogin: string;
   mainUserId: string;
+  viewId: string;
   postData: IBlogData[]
   userData: IUserData[]
 }
@@ -27,6 +28,7 @@ interface IBlogData {
 const initialState:IBlog = {
   mainLogin: '',
   mainUserId: '',
+  viewId: '',
   postData: [],
   userData: [],
 }
@@ -47,8 +49,11 @@ const blogSlice = createSlice({
     setUserData: (state, action) => {
       state.userData = action.payload;
     },
+    setViewId: (state, action) => {
+      state.viewId = action.payload;
+    },
   }
 })
 
-export const { setmainUserId, setMainLogin, setPostData, setUserData } = blogSlice.actions;
+export const { setmainUserId, setMainLogin, setPostData, setUserData, setViewId } = blogSlice.actions;
 export default blogSlice.reducer

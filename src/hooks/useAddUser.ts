@@ -7,8 +7,9 @@ export interface IProps{
 }
 
 export const addUser = async ({login,password,userFingerprint}:IProps) => {
+  const avatar = '';
   try{
-    axios.post('/addUser',{login: login, password: password, userFingerprint: userFingerprint})
+    axios.post('/addUser',{login: login, password: password, userFingerprint: userFingerprint, avatar: avatar})
   }catch(err){
     console.log(err);
   }
