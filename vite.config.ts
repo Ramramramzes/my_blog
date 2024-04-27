@@ -21,6 +21,7 @@ export default defineConfig({
       '/checktoken': SERVER,
       '/getuser': SERVER,
       '/postnewpost': SERVER,
+      '/upload': SERVER,
     }
   }
 })

@@ -10,7 +10,7 @@ interface IBlog {
   addPostText: string;
 }
 
-interface IUserData {
+export interface IUserData {
   id: number;
   login: string;
   password: string;

@@ -1,8 +1,32 @@
 import express from "express";
+import multer from "multer";
 import { connection } from "./db.js";
+import path from "path";
+import { queries } from "@testing-library/react";
+
 const app = express()
 const port = 3001
+
 app.use(express.json());
+app.use('/uploads', express.static('uploads'));
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'src/img/avatars/');
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.fieldname + '_' + `${req.query.user_id}` + path.extname(file.originalname));
+  }
+});
+const upload = multer({ storage: storage });
+
+app.post('/upload', upload.single('avatar'), (req, res) => {
+  if (req.file) {
+    res.send(req.file.path);
+  } else {
+    res.status(400).send('No file uploaded');
+  }
+});
 
 app.get('/checkAllUsers', (req, res) => {
   const sql = `SELECT * FROM \`blog_table\` WHERE \`login\` = '${req.query.login}'`
