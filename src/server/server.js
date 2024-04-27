@@ -16,13 +16,23 @@ const storage = multer.diskStorage({
   },
   filename: function (req, file, cb) {
     cb(null, file.fieldname + '_' + `${req.query.user_id}` + path.extname(file.originalname));
-  }
+  },
+  overwrite: true,
 });
 const upload = multer({ storage: storage });
 
 app.post('/upload', upload.single('avatar'), (req, res) => {
   if (req.file) {
-    res.send(req.file.path);
+    const sql = `UPDATE \`blog_table\` SET \`avatar\`='${req.file.path}' WHERE \`id\` = ${Number(req.query.user_id)}`;
+    connection.query(sql, (error, results) => {
+      if (error) {
+        res.status(500).json({ error: 'Ошибка при выполнении запроса к базе данных' });
+        console.log(error.code, error.message);
+      } else {
+        res.send(req.file.path);
+      }
+    });
+
   } else {
     res.status(400).send('No file uploaded');
   }
