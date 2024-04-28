@@ -22,6 +22,7 @@ export default defineConfig({
       '/getuser': SERVER,
       '/postnewpost': SERVER,
       '/upload': SERVER,
+      '/delete-image': SERVER,
     }
   }
 })

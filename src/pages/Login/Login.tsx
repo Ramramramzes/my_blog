@@ -12,13 +12,13 @@ export function Login() {
   const LogingState = useSelector((state: RootState) => state.login);
   const dispatch = useDispatch<AppDispatch>();
   
-  useEffect(() => {
-    (async () => {
-      const fp = await fpPromise
-      const result = await fp.get()
-      dispatch(setFingerprint(result.visitorId))
-    })()
-  },[])
+  // useEffect(() => {
+  //   (async () => {
+  //     const fp = await fpPromise
+  //     const result = await fp.get()
+  //     dispatch(setFingerprint(result.visitorId))
+  //   })()
+  // },[])
   
   const loginChangeHandler = (event:ChangeEvent<HTMLInputElement>) => {
     dispatch(setLogin(event.target.value));

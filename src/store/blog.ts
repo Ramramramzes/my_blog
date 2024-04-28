@@ -8,6 +8,7 @@ interface IBlog {
   userData: IUserData[]
   addPostState: boolean;
   addPostText: string;
+  photoChange: boolean;
 }
 
 export interface IUserData {
@@ -35,6 +36,7 @@ const initialState:IBlog = {
   userData: [],
   addPostState: false,
   addPostText: '',
+  photoChange: false,
 }
 
 const blogSlice = createSlice({
@@ -62,8 +64,11 @@ const blogSlice = createSlice({
     changeAddPostText: (state,action) => {
       state.addPostText = action.payload;
     },
+    changePhotoChange: (state) => {
+      state.photoChange =!state.photoChange;
+    },
   }
 })
 
-export const { setmainUserId, setMainLogin, setPostData, setUserData, setViewId, changeAddPost,changeAddPostText } = blogSlice.actions;
+export const { setmainUserId, setMainLogin, setPostData, setUserData, setViewId, changeAddPost, changeAddPostText, changePhotoChange } = blogSlice.actions;
 export default blogSlice.reducer

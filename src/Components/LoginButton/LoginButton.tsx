@@ -13,7 +13,7 @@ export function LoginButton() {
   const clickHandler = async() => {
     const checkOne = await checkOneUser(LogingState.login, LogingState.password);
     if(checkOne.length != 0){
-      navigate('/check');
+      navigate('/blog');
       dispatch(setMainLogin(LogingState.login));
       dispatch(setmainUserId(checkOne[0].id));
       dispatch(setViewId(checkOne[0].id));

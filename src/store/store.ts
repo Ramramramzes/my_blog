@@ -3,7 +3,7 @@ import loginReducer from './login'
 import blogReducer from './blog'
 const rootReducer = combineReducers({
   login: loginReducer,
-  blog: blogReducer,
+  blog: blogReducer
 })
 
 const store = configureStore({

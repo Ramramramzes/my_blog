@@ -2,7 +2,7 @@ import express from "express";
 import multer from "multer";
 import { connection } from "./db.js";
 import path from "path";
-import { queries } from "@testing-library/react";
+import fs from "fs";
 
 const app = express()
 const port = 3001
@@ -15,7 +15,7 @@ const storage = multer.diskStorage({
     cb(null, 'src/img/avatars/');
   },
   filename: function (req, file, cb) {
-    cb(null, file.fieldname + '_' + `${req.query.user_id}` + path.extname(file.originalname));
+    cb(null, file.fieldname + '_' + `${req.query.user_id}` + '_' + `${new Date().getTime()}` + path.extname(file.originalname));
   },
   overwrite: true,
 });
@@ -105,8 +105,8 @@ app.get('/checktoken',(req,res)=>{
 })
 
 app.get('/getuser',(req,res)=>{
-  const sql = `SELECT * FROM \`blog_table\` WHERE \`id\` = '${req.query.id}'`
-
+  const sql = `SELECT * FROM \`blog_table\` WHERE \`id\` = ${req.query.id}`
+  
   connection.query(sql, (error, results) => {
     if (error) {
       res.status(500).json({ error: 'Ошибка при выполнении запроса к базе данных' });
@@ -130,6 +130,21 @@ app.post('/postnewpost',(req,res)=>{
   });
 })
 
+app.delete('/delete-image',(req,res)=>{
+
+  const filePath = req.query.filePath;
+  if(!filePath || !path.isAbsolute(filePath)){
+    console.log('Неверный путь к файлу');
+  }
+
+  fs.unlink(filePath,(err)=>{
+    if(err){
+      console.log('Не удалось удалить файл');
+    }
+    res.send('Файл успешно удален');
+  })
+
+})
 
 
 app.listen(port, () => {

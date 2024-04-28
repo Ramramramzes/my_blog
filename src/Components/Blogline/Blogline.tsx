@@ -17,9 +17,12 @@ export function Blogline() {
 
   useEffect(() => {
     dispatch(setPostData(allPost))
+  },[allPost,,dispatch,])
+
+  useEffect(() => {
     dispatch(setUserData(userData))
-  },[allPost,userData,dispatch])
-  
+  },[userData,dispatch])
+
 
   return (
     <ul className={styles.list}>
