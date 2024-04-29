@@ -7,19 +7,22 @@ import { changePhotoChange } from '../../store/blog';
 
 
 export function Upload({path}:{path: string}) {
+  const [visibleUpload,setVisibleUpload] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const BlogState = useSelector((state: RootState) => state.blog);
   const dispatch = useDispatch<AppDispatch>();
   
-  const handleChange = (event:ChangeEvent<HTMLInputElement>) => {
+  const handleChange = async (event:ChangeEvent<HTMLInputElement>) => {
     if(event.target.files && event.target.files.length > 0) {
       setSelectedFile(event.target.files[0]);
+      await handleSend(event.target.files[0]);
     }
   }
 
-  const handleSend = async() => {
+  const handleSend = async(file: File) => {
+    setVisibleUpload(!visibleUpload);
     const formData = new FormData();
-    formData.append('avatar', selectedFile ? selectedFile : '');
+    formData.append('avatar', file);
     try{
       await axios.post(`/upload?user_id=${BlogState.mainUserId}`, formData);
       await axios.delete(`/delete-image?filePath=${path}`);
@@ -30,12 +33,18 @@ export function Upload({path}:{path: string}) {
     }
   }
 
+  const changePhotoVisibilityHandler = () => {
+    setVisibleUpload(!visibleUpload);
+  }
+
   return (
     <>
-      <input type="file" 
-      onChange={handleChange}
-      accept='image/* ,.png,.jpg,.web,.jpeg '/>
-      <input type="submit" value="Сохранить" onClick={handleSend}/>
+      {!visibleUpload && <button onClick={changePhotoVisibilityHandler}>Изменить фото</button>}
+      {visibleUpload && (<><input type="file" 
+                          onChange={handleChange}
+                          accept='image/* ,.png,.jpg,.web,.jpeg '/>
+                          {/* <input type="submit" value="Сохранить" onClick={handleSend}/> */}
+                        </>)}
     </>
   );
 }

@@ -17,17 +17,14 @@ export function Blogline() {
 
   useEffect(() => {
     dispatch(setPostData(allPost))
-  },[allPost,,dispatch,])
-
-  useEffect(() => {
     dispatch(setUserData(userData))
-  },[userData,dispatch])
+  },[allPost,userData,dispatch,])
 
 
   return (
     <ul className={styles.list}>
       {!BlogState.mainUserId && <button onClick={() => navigation('/')}>Войти</button>}
-      {BlogState.postData.map((el,index) => {
+      {BlogState.postData && BlogState.postData.map((el,index) => {
         return (
           <li key={index} className={styles.listItem}>
             <div className={styles.userInfo}>

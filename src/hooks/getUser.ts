@@ -13,6 +13,7 @@ export const getUser = (id: number) => {
         const response = await axios.get("/getuser", {
           params: { id: id },
         });
+
         setData(response.data)
       }catch(err){
         console.log(err)
@@ -20,7 +21,7 @@ export const getUser = (id: number) => {
     }
 
     fetchData();
-  },[data,BlogState.photoChange])
+  },[BlogState.photoChange])
   
   return data
 }

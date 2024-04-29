@@ -13,7 +13,7 @@ export function Profile() {
     <div className={styles.profile}>
       <div className={styles.profileBlock}>
         <img className={styles.image} src={userData.length != 0 && userData[0].avatar ? userData[0].avatar : 'src/img/assets/no.png'} alt="" />
-        <p>Имя</p>
+        
         <Upload path={userData.length != 0 && userData[0].avatar ? userData[0].avatar : ''}/>
       </div>
     </div>

@@ -133,9 +133,9 @@ app.post('/postnewpost',(req,res)=>{
 app.delete('/delete-image',(req,res)=>{
 
   const filePath = req.query.filePath;
-  if(!filePath || !path.isAbsolute(filePath)){
-    console.log('Неверный путь к файлу');
-  }
+  // if(!filePath || !path.isAbsolute(filePath)){
+  //   console.log('Неверный путь к файлу');
+  // }
 
   fs.unlink(filePath,(err)=>{
     if(err){
