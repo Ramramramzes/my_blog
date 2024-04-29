@@ -15,11 +15,19 @@ export function Blogline() {
   const allPost = getPostDataById(Number(BlogState.viewId))
   const userData = getUser(Number(BlogState.viewId))
 
+  const miniImage = {
+    backgroundImage: `url(${BlogState.imagePath})`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    width: '50px',
+    height: '50px',
+    borderRadius: '100%',
+  }
+
   useEffect(() => {
     dispatch(setPostData(allPost))
     dispatch(setUserData(userData))
   },[allPost,userData,dispatch,])
-
 
   useEffect(() => {
     if(!BlogState.mainUserId){
@@ -39,7 +47,10 @@ export function Blogline() {
         return (
           <li key={index} className={styles.listItem}>
             <div className={styles.userInfo}>
-              <span>{BlogState.userData.length > 0 && BlogState.userData[0].login}</span>
+              <div className={styles.userInfoPhotoBlock}>
+                <div style={miniImage} className={styles.userInfoPhoto}></div>
+                <span>{BlogState.userData.length > 0 && BlogState.userData[0].login}</span>
+              </div>
               <span className={styles.dateTime}>{`${new Date(Number(el.date)).getDate()}.${new Date(Number(el.date)).getMonth()}.${new Date(Number(el.date)).getFullYear()}`}</span>
             </div>
             {el.post_text}

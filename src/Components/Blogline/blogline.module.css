@@ -32,3 +32,13 @@
   font-size: 10px;
   opacity: .5;
 }
+
+.userInfoPhotoBlock{
+  display: flex;
+  align-items: center;
+  width: 50%;
+}
+
+.userInfoPhoto{
+  margin-right: 5%;
+}

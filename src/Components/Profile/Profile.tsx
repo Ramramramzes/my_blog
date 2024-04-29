@@ -1,15 +1,22 @@
 import styles from './profile.module.css';
 import { Upload } from '../Upload';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../store/store';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../../store/store';
 import { getUser } from '../../hooks/getUser';
-import { IUserData } from '../../store/blog';
+import { IUserData, setPhotoPath } from '../../store/blog';
+import { useEffect } from 'react';
 
 export function Profile() {
   const BlogState = useSelector((state: RootState) => state.blog);
   const userData:IUserData[] = getUser(Number(BlogState.viewId))
-
+  const dispatch = useDispatch<AppDispatch>();
+  
   const imageUrl = userData.length !== 0 && userData[0].avatar ? userData[0].avatar : 'src/img/assets/no.png';
+
+  useEffect(() => {
+    dispatch(setPhotoPath(imageUrl))
+  },[imageUrl])
+  
   const imageBlock = {
     backgroundImage: `url(${imageUrl})`,
     backgroundSize: imageUrl ==='src/img/assets/no.png'? 'contain' : 'cover' ,
