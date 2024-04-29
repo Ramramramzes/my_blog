@@ -131,19 +131,29 @@ app.post('/postnewpost',(req,res)=>{
 })
 
 app.delete('/delete-image',(req,res)=>{
-
   const filePath = req.query.filePath;
   // if(!filePath || !path.isAbsolute(filePath)){
   //   console.log('Неверный путь к файлу');
   // }
-
   fs.unlink(filePath,(err)=>{
     if(err){
       console.log('Не удалось удалить файл');
     }
     res.send('Файл успешно удален');
   })
+})
 
+app.post('/update-token',(req,res)=>{
+  const sql = `UPDATE \`blog_table\` SET \`token\`='${req.body.token}' WHERE \`id\` = ${req.body.id}`
+
+  connection.query(sql, (error, results) => {
+    if (error) {
+      res.status(500).json({ error: 'Ошибка при выполнении запроса к базе данных' });
+      console.log(error.code, error.message);
+    } else {
+      res.send(results);
+    }
+  });
 })
 
 

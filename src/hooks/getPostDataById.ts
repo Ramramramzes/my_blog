@@ -13,7 +13,8 @@ export const getPostDataById = (id:number) => {
         const res = await axios.get(`/getblogpost`,{
           params: { id: id }
         })
-        setData(res.data)
+        
+        setData(res.data.reverse())
       }catch(err){
         console.log(err);
       }

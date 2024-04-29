@@ -23,6 +23,7 @@ export default defineConfig({
       '/postnewpost': SERVER,
       '/upload': SERVER,
       '/delete-image': SERVER,
+      '/update-token': SERVER,
     }
   }
 })

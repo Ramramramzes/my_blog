@@ -21,8 +21,19 @@ export function Blogline() {
   },[allPost,userData,dispatch,])
 
 
+  useEffect(() => {
+    if(!BlogState.mainUserId){
+      navigation('/');
+    }
+  },[])
+
   return (
     <ul className={styles.list}>
+      {BlogState.mainUserId === BlogState.viewId && (
+        <li className={styles.listItemLast}>
+          <PostPopup />
+        </li>
+      )}
       {!BlogState.mainUserId && <button onClick={() => navigation('/')}>Войти</button>}
       {BlogState.postData && BlogState.postData.map((el,index) => {
         return (
@@ -39,12 +50,6 @@ export function Blogline() {
           </li>
         )
       })}
-
-      {BlogState.mainUserId === BlogState.viewId && (
-        <li className={styles.listItemLast}>
-          <PostPopup />
-        </li>
-      )}
     </ul>
   );
 }

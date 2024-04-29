@@ -10,8 +10,8 @@ import { setMainLogin, setViewId, setmainUserId } from "../../store/blog";
 export function RegisterButton() {
   const LogingState = useSelector((state: RootState) => state.login);
   const dispatch = useDispatch<AppDispatch>();
-
   const navigate = useNavigate();
+
   
   const clickHandler = async() => {
     if(LogingState.password.length > 2){
@@ -22,7 +22,7 @@ export function RegisterButton() {
         dispatch(setmainUserId(checkOne[0].id));
         dispatch(setViewId(checkOne[0].id));
         dispatch(setPassword(''));
-        navigate('/check');
+        navigate('/blog');
       }else{
         dispatch(setErrorState('Логин уже существует'));
       }
