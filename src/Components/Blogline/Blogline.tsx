@@ -31,7 +31,7 @@ export function Blogline() {
 
   useEffect(() => {
     if(!BlogState.mainUserId){
-      navigation('/');
+      navigation('/news');
     }
   },[])
 
@@ -42,7 +42,7 @@ export function Blogline() {
           <PostPopup />
         </li>
       )}
-      {!BlogState.mainUserId && <button onClick={() => navigation('/')}>Войти</button>}
+      {/* {!BlogState.mainUserId && <button onClick={() => navigation('/')}>Войти</button>} */}
       {BlogState.postData && BlogState.postData.map((el,index) => {
         return (
           <li key={index} className={styles.listItem}>

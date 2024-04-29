@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 const buttons: {name:string,link: string}[] = [
   {name: 'Мой блог', link: '/'},
-  {name: 'Новости', link: '/'},
+  {name: 'Новости', link: '/news'},
   {name: 'Друзья', link: '/'},
 ]
 

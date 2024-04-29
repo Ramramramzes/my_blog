@@ -20,7 +20,7 @@ export interface IUserData {
   token: string;
 }
 
-interface IBlogData {
+export interface IBlogData {
   post_id: number;
   user_id: number;
   date: string;

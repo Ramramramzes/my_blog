@@ -36,7 +36,7 @@ export const PostPopup = () => {
   return (
       <>
         <div className={styles.openButtonBlock}>
-          {!BlogState.addPostState && (
+          {!BlogState.addPostState && BlogState.mainLogin && (
             <button className={styles.buttonAdd} onClick={() => dispatch(changeAddPost())}>Добавить запись</button>
           )}
         </div>

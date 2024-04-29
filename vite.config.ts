@@ -24,6 +24,7 @@ export default defineConfig({
       '/upload': SERVER,
       '/delete-image': SERVER,
       '/update-token': SERVER,
+      '/get-news': SERVER,
     }
   }
 })
