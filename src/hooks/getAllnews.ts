@@ -10,7 +10,7 @@ export const getAllNews = () => {
       try{
         const response = await axios.get("/get-news");
 
-        setData(response.data)
+        setData(response.data.reverse())
       }catch(err){
         console.log(err)
       }

@@ -23,6 +23,8 @@ export interface IUserData {
 export interface IBlogData {
   post_id: number;
   user_id: number;
+  image_path: string;
+  user_login: string;
   date: string;
   post_text: string;
   like_count: number;

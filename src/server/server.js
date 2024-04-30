@@ -118,16 +118,29 @@ app.get('/getuser',(req,res)=>{
 })
 
 app.post('/postnewpost',(req,res)=>{
-  const sql = `INSERT INTO \`blog_post\`(\`user_id\`, \`date\`, \`post_text\`, \`like_count\`, \`comment_count\`) VALUES ('${req.body.user_id}','${new Date().getTime()}','${req.body.post_text}',0,0)`
+  const sql = `
+  INSERT INTO \`blog_post\`(
+    \`user_id\`, 
+    \`image_path\`, 
+    \`user_login\`, 
+    \`date\`, 
+    \`post_text\`, 
+    \`like_count\`, 
+    \`comment_count\`
+  ) VALUES (?, ?, ?, ?, ?, 0, 0)
+`;
 
-  connection.query(sql, (error, results) => {
-    if (error) {
-      res.status(500).json({ error: 'Ошибка при выполнении запроса к базе данных' });
-      console.log(error.code, error.message);
-    } else {
-      res.send(results);
-    }
-  });
+connection.query(sql, [
+  req.body.user_id, 
+  req.body.image_path, 
+  req.body.user_login, 
+  new Date().getTime(), 
+  req.body.post_text
+], (err, results, fields) => {
+  if (err) throw err;
+  console.log(err);;
+});
+
 })
 
 app.delete('/delete-image',(req,res)=>{

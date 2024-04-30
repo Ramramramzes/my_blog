@@ -7,7 +7,7 @@ import FingerprintJS from '@fingerprintjs/fingerprintjs'
 import { RegisterButton } from '../../Components/RegisterButton';
 import { LoginButton } from '../../Components/LoginButton';
 import { useCheckToken } from '../../services/checkToken';
-import { setViewId, setmainUserId } from '../../store/blog';
+import { setMainLogin, setViewId, setmainUserId } from '../../store/blog';
 import { useNavigate } from 'react-router-dom';
 const fpPromise = FingerprintJS.load();
 
@@ -31,6 +31,7 @@ export function Login() {
         if(res?.token){
           dispatch(setmainUserId(res?.id));
           dispatch(setViewId(res?.id));
+          dispatch(setMainLogin(res?.login));
           navigate('/blog'); 
         }
       }

@@ -1,4 +1,5 @@
 import axios from "axios";
+import login from "../store/login";
 
 export const useCheckToken = async (token: string) => {
   try{
@@ -7,6 +8,7 @@ export const useCheckToken = async (token: string) => {
     });
       return {
         id: res.data[0].id,
+        login: res.data[0].login,
         token: res.data[0].token,
       };
   }catch(err){

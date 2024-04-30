@@ -27,7 +27,9 @@ export const PostPopup = () => {
   }
 
   function sendData() {
-    postNewPost(BlogState.addPostText,BlogState.mainUserId)
+    console.log(BlogState.mainLogin);
+    
+    postNewPost(BlogState.addPostText,BlogState.mainUserId,BlogState.imagePath,BlogState.mainLogin);
     dispatch(changeAddPost())
     dispatch(changeAddPostText(''));
     newHeight();
@@ -36,9 +38,7 @@ export const PostPopup = () => {
   return (
       <>
         <div className={styles.openButtonBlock}>
-          {!BlogState.addPostState && BlogState.mainLogin && (
-            <button className={styles.buttonAdd} onClick={() => dispatch(changeAddPost())}>Добавить запись</button>
-          )}
+          {BlogState.mainUserId == BlogState.viewId ? <button className={styles.buttonAdd} onClick={() => dispatch(changeAddPost())}>Добавить запись</button> : ''}
         </div>
         {BlogState.addPostState && (
           <div className={styles.textareaBlock}>
