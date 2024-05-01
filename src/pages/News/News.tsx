@@ -2,12 +2,19 @@ import styles from './news.module.css'
 import { Header } from "../../Components/Header";
 import { getAllNews } from '../../hooks/getAllnews';
 import { IBlogData } from '../../store/blog';
+import { LikeBtn } from '../../Components/LikeBtn';
+import { Likes } from '../../Components/Likes';
+import { RootState } from '../../store/store';
+import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
 
 
 export function News() {
   const AllPostData:IBlogData[] = getAllNews();
-  
+  const BlogState = useSelector((state: RootState) => state.blog);
+  useEffect(() => {
+    console.log(BlogState.mainUserId);
+  },[BlogState.mainUserId]);
   return (
     <>
       <div>
@@ -27,7 +34,10 @@ export function News() {
             </div>
             {el.post_text}
             <div className={styles.userInfo}>
-              <div>Блок с лайками комментами</div>
+              <div>
+                {BlogState.mainUserId && <LikeBtn post_id={el.post_id} user_id={Number(BlogState.mainUserId)} />}
+                <Likes post_id={el.post_id} />
+              </div>
               <span className={styles.dateTime}>{`${new Date(Number(el.date)).getHours()}:${new Date(Number(el.date)).getMinutes()}`}</span>
             </div>
           </li>

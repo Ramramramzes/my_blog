@@ -3,14 +3,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store";
 import { getPostDataById } from "../../hooks/getPostDataById";
 import { useEffect } from "react";
-import { catchLikesClick, setPostData, setUserData} from "../../store/blog";
+import { setPostData, setUserData} from "../../store/blog";
 import { useNavigate } from "react-router-dom";
 import { PostPopup } from '../PostPopup';
 import { getUser } from '../../hooks/getUser';
-import { like } from '../../services/like';
-import { dislike } from '../../services/dislike';
 import { Likes } from '../Likes/Likes';
-import { likedYet } from '../../services/likedYet';
 import { LikeBtn } from '../LikeBtn';
 
 export function Blogline() {
@@ -62,7 +59,7 @@ export function Blogline() {
             <div className={styles.userInfo}>
               <div>
                 <LikeBtn post_id={el.post_id} user_id={el.user_id} />
-                <Likes post_id={el.post_id} user_id={el.user_id} />
+                <Likes post_id={el.post_id}/>
               </div>
               <span className={styles.dateTime}>{`${new Date(Number(el.date)).getHours()}:${new Date(Number(el.date)).getMinutes()}`}</span>
             </div>

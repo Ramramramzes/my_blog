@@ -1,13 +1,14 @@
 import styles from './likebtn.module.css'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { dislike } from '../../services/dislike';
 import { like } from '../../services/like';
 import { catchLikesClick } from '../../store/blog';
-import { AppDispatch } from '../../store/store';
+import { AppDispatch, RootState } from '../../store/store';
 import { useEffect, useState } from 'react';
 import { likedYet } from '../../services/likedYet';
 
 export function LikeBtn({post_id,user_id}:{post_id:number,user_id:number}) {
+  
   const [isLiked, setIsLiked] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
 
@@ -24,12 +25,14 @@ export function LikeBtn({post_id,user_id}:{post_id:number,user_id:number}) {
 
   useEffect(() => {
     const fetchData = async() => {
-      const res = await likedYet(post_id,user_id)
-      setIsLiked(res.length != 0 ? false : true)
+      const res = await likedYet(post_id ,user_id)
+      
+      setIsLiked(res.length > 0 && res[0].user_id === user_id ? false : true)
     }
 
     fetchData()
-  },[likedYet])
+
+  },[])
 
 
   return (

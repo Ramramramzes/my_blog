@@ -176,7 +176,7 @@ app.post('/dislike',cors(),(req,res)=>{
 })
 
 app.get('/get-likes',cors(),(req,res)=>{
-  const sql = `SELECT * FROM \`blog_like\` WHERE \`post_id\` = ${req.query.post_id} AND \`user_id\` = ${req.query.user_id}`
+  const sql = `SELECT * FROM \`blog_like\` WHERE \`post_id\` = ${req.query.post_id}`
   
   connection.query(sql, (error, results) => {
     if (error) {

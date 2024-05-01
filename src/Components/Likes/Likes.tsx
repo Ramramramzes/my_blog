@@ -2,14 +2,15 @@ import { useEffect, useState } from 'react';
 import { getLikes } from '../../services/getLikes';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
+import { getAllLikes } from '../../services/getAllLikes';
 
-export function Likes({post_id,user_id}:{post_id:number,user_id:number}) {
+export function Likes({post_id}:{post_id:number}) {
   const BlogState = useSelector((state: RootState) => state.blog);
   const [num,setNum] = useState(0)
 
   useEffect(() => {
     const fetchData = async() => {
-      const res = await getLikes(post_id,user_id)
+      const res = await getLikes(post_id)
       setNum(res ? res.length : 0)
     }
 
