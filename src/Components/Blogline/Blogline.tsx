@@ -3,10 +3,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store";
 import { getPostDataById } from "../../hooks/getPostDataById";
 import { useEffect } from "react";
-import { setPostData, setUserData} from "../../store/blog";
+import { catchLikesClick, setPostData, setUserData} from "../../store/blog";
 import { useNavigate } from "react-router-dom";
 import { PostPopup } from '../PostPopup';
 import { getUser } from '../../hooks/getUser';
+import { like } from '../../services/like';
+import { dislike } from '../../services/dislike';
+import { Likes } from '../Likes/Likes';
 
 export function Blogline() {
   const BlogState = useSelector((state: RootState) => state.blog);
@@ -55,7 +58,17 @@ export function Blogline() {
             </div>
             {el.post_text}
             <div className={styles.userInfo}>
-              <div>Блок с лайками комментами</div>
+              <div>
+                <button onClick={() => {
+                  like(el.post_id,el.user_id)
+                  dispatch(catchLikesClick())
+                }}>🤍</button>
+                <button onClick={() => {
+                  dislike(el.post_id,el.user_id)
+                  dispatch(catchLikesClick())
+                }}>🩷</button>
+                <Likes post_id={el.post_id} user_id={el.user_id} />
+              </div>
               <span className={styles.dateTime}>{`${new Date(Number(el.date)).getHours()}:${new Date(Number(el.date)).getMinutes()}`}</span>
             </div>
           </li>

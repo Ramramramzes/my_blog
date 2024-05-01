@@ -25,6 +25,9 @@ export default defineConfig({
       '/delete-image': SERVER,
       '/update-token': SERVER,
       '/get-news': SERVER,
+      '/like': SERVER,
+      '/dislike': SERVER,
+      '/get-likes': SERVER,
     }
   }
 })

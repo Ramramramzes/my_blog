@@ -10,6 +10,7 @@ interface IBlog {
   addPostText: string;
   photoChange: boolean;
   imagePath: string;
+  likeHandler: boolean;
 }
 
 export interface IUserData {
@@ -41,6 +42,7 @@ const initialState:IBlog = {
   addPostText: '',
   photoChange: false,
   imagePath:'',
+  likeHandler: false,
 }
 
 const blogSlice = createSlice({
@@ -74,8 +76,11 @@ const blogSlice = createSlice({
     setPhotoPath: (state,action) => {
       state.imagePath = action.payload;
     },
+    catchLikesClick: (state) => {
+      state.likeHandler =!state.likeHandler;
+    },
   }
 })
 
-export const { setmainUserId, setMainLogin, setPostData, setUserData, setViewId, changeAddPost, changeAddPostText, changePhotoChange, setPhotoPath } = blogSlice.actions;
+export const { setmainUserId, setMainLogin, setPostData, setUserData, setViewId, changeAddPost, changeAddPostText, changePhotoChange, setPhotoPath, catchLikesClick } = blogSlice.actions;
 export default blogSlice.reducer

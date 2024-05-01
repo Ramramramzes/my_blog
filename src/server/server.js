@@ -128,19 +128,58 @@ app.post('/postnewpost',(req,res)=>{
     \`like_count\`, 
     \`comment_count\`
   ) VALUES (?, ?, ?, ?, ?, 0, 0)
-`;
+  `;
 
-connection.query(sql, [
-  req.body.user_id, 
-  req.body.image_path, 
-  req.body.user_login, 
-  new Date().getTime(), 
-  req.body.post_text
-], (err, results, fields) => {
-  if (err) throw err;
-  console.log(err);;
-});
+  connection.query(sql, [
+    req.body.user_id, 
+    req.body.image_path, 
+    req.body.user_login, 
+    new Date().getTime(), 
+    req.body.post_text
+  ], (err, results, fields) => {
+    if (err) throw err;
+    console.log(err);;
+  });
 
+})
+
+app.post('/like',(req,res)=>{
+  const sql = `INSERT INTO \`blog_like\`(\`post_id\`, \`user_id\`) VALUES (?,?)`;
+
+  connection.query(sql, [
+    req.body.post_id,
+    req.body.user_id
+  ], (err, results, fields) => {
+    if (err) throw err;
+    console.log(err);;
+  });
+
+})
+
+app.post('/dislike',(req,res)=>{
+  const sql = `DELETE FROM \`blog_like\` WHERE \`post_id\` = ${req.body.post_id} AND \`user_id\`= ${req.body.user_id}`;
+
+  connection.query(sql, [
+    req.body.post_id,
+    req.body.user_id
+  ], (err, results, fields) => {
+    if (err) throw err;
+    console.log(err);;
+  });
+
+})
+
+app.get('/get-likes',(req,res)=>{
+  const sql = `SELECT * FROM \`blog_like\` WHERE \`post_id\` = ${req.query.post_id} AND \`user_id\` = ${req.query.user_id}`
+  
+  connection.query(sql, (error, results) => {
+    if (error) {
+      res.status(500).json({ error: 'Ошибка при выполнении запроса к базе данных' });
+      console.log(error.code, error.message);
+    } else {
+      res.send(results);
+    }
+  });
 })
 
 app.delete('/delete-image',(req,res)=>{
