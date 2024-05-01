@@ -3,11 +3,13 @@ import multer from "multer";
 import { connection } from "./db.js";
 import path from "path";
 import fs from "fs";
+import cors from "cors";
 
 const app = express()
 const port = 3001
 
 app.use(express.json());
+app.use(cors());
 app.use('/uploads', express.static('uploads'));
 
 const storage = multer.diskStorage({
@@ -143,7 +145,7 @@ app.post('/postnewpost',(req,res)=>{
 
 })
 
-app.post('/like',(req,res)=>{
+app.post('/like',cors(),(req,res)=>{
   const sql = `INSERT INTO \`blog_like\`(\`post_id\`, \`user_id\`) VALUES (?,?)`;
 
   connection.query(sql, [
@@ -152,11 +154,13 @@ app.post('/like',(req,res)=>{
   ], (err, results, fields) => {
     if (err) throw err;
     console.log(err);;
+    res.status(500).send('Server Error');
+    return
   });
 
 })
 
-app.post('/dislike',(req,res)=>{
+app.post('/dislike',cors(),(req,res)=>{
   const sql = `DELETE FROM \`blog_like\` WHERE \`post_id\` = ${req.body.post_id} AND \`user_id\`= ${req.body.user_id}`;
 
   connection.query(sql, [
@@ -165,11 +169,13 @@ app.post('/dislike',(req,res)=>{
   ], (err, results, fields) => {
     if (err) throw err;
     console.log(err);;
+    res.status(500).send('Server Error');
+    return
   });
 
 })
 
-app.get('/get-likes',(req,res)=>{
+app.get('/get-likes',cors(),(req,res)=>{
   const sql = `SELECT * FROM \`blog_like\` WHERE \`post_id\` = ${req.query.post_id} AND \`user_id\` = ${req.query.user_id}`
   
   connection.query(sql, (error, results) => {

@@ -14,10 +14,10 @@ export function Likes({post_id,user_id}:{post_id:number,user_id:number}) {
     }
 
     fetchData()
-  },[num,BlogState.likeHandler])
+  },[BlogState.likeHandler])
   return (
     <>
-      {num}
+      <p>{num} лайков</p>
     </>
   );
 }

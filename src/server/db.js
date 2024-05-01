@@ -1,6 +1,7 @@
-import { createConnection } from "mysql"
+import { createPool } from "mysql"
 
-export const connection = createConnection({
+export const connection = createPool({
+  connectionLimit: 30,
   host: 'localhost',
   user: 'root',
   password: 'root',

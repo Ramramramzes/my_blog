@@ -20,3 +20,11 @@ body{
   background-color: #00052d;
   color: #fff;
 }
+
+.dn{
+  display: none;
+}
+
+.db{
+  display: block;
+}

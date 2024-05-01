@@ -10,6 +10,8 @@ import { getUser } from '../../hooks/getUser';
 import { like } from '../../services/like';
 import { dislike } from '../../services/dislike';
 import { Likes } from '../Likes/Likes';
+import { likedYet } from '../../services/likedYet';
+import { LikeBtn } from '../LikeBtn';
 
 export function Blogline() {
   const BlogState = useSelector((state: RootState) => state.blog);
@@ -59,14 +61,7 @@ export function Blogline() {
             {el.post_text}
             <div className={styles.userInfo}>
               <div>
-                <button onClick={() => {
-                  like(el.post_id,el.user_id)
-                  dispatch(catchLikesClick())
-                }}>🤍</button>
-                <button onClick={() => {
-                  dislike(el.post_id,el.user_id)
-                  dispatch(catchLikesClick())
-                }}>🩷</button>
+                <LikeBtn post_id={el.post_id} user_id={el.user_id} />
                 <Likes post_id={el.post_id} user_id={el.user_id} />
               </div>
               <span className={styles.dateTime}>{`${new Date(Number(el.date)).getHours()}:${new Date(Number(el.date)).getMinutes()}`}</span>
