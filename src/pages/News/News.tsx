@@ -6,15 +6,12 @@ import { LikeBtn } from '../../Components/LikeBtn';
 import { Likes } from '../../Components/Likes';
 import { RootState } from '../../store/store';
 import { useSelector } from 'react-redux';
-import { useEffect } from 'react';
 
 
 export function News() {
   const AllPostData:IBlogData[] = getAllNews();
   const BlogState = useSelector((state: RootState) => state.blog);
-  useEffect(() => {
-    console.log(BlogState.mainUserId);
-  },[BlogState.mainUserId]);
+
   return (
     <>
       <div>

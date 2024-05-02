@@ -9,8 +9,12 @@ const app = express()
 const port = 3001
 
 app.use(express.json());
-app.use(cors());
+// app.use(cors());
 app.use('/uploads', express.static('uploads'));
+
+app.use(cors({
+  origin: 'http://localhost:3000'
+}));
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -153,7 +157,6 @@ app.post('/like',cors(),(req,res)=>{
     req.body.user_id
   ], (err, results, fields) => {
     if (err) throw err;
-    console.log(err);;
     res.status(500).send('Server Error');
     return
   });
@@ -168,7 +171,6 @@ app.post('/dislike',cors(),(req,res)=>{
     req.body.user_id
   ], (err, results, fields) => {
     if (err) throw err;
-    console.log(err);;
     res.status(500).send('Server Error');
     return
   });
