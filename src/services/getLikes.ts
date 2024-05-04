@@ -7,7 +7,7 @@ export const getLikes = (post_id:number) => {
   const [data, setData] = useState([])
   const BlogState = useSelector((state: RootState) => state.blog);
   const [time, setTime] = useState(false);
-  
+  const LIKE_LOADING_DELAY = 30000
   useEffect(() => {
     async function fetchData() {
       try{
@@ -22,7 +22,7 @@ export const getLikes = (post_id:number) => {
     }
     setTimeout(() => {
     setTime(!time);
-    }, 30000);
+    }, LIKE_LOADING_DELAY);
     fetchData()
   },[BlogState.likeHandler, time])
 
