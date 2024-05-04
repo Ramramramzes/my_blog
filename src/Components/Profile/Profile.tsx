@@ -5,6 +5,7 @@ import { AppDispatch, RootState } from '../../store/store';
 import { getUser } from '../../hooks/getUser';
 import { IUserData, setPhotoPath } from '../../store/blog';
 import { useEffect } from 'react';
+import { updatePostImage } from '../../services/updatePostImage';
 
 export function Profile() {
   const BlogState = useSelector((state: RootState) => state.blog);
@@ -15,6 +16,7 @@ export function Profile() {
 
   useEffect(() => {
     dispatch(setPhotoPath(imageUrl))
+    updatePostImage(Number(BlogState.mainUserId),imageUrl)
   },[imageUrl])
   
   const imageBlock = {

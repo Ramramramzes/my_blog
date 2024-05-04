@@ -230,6 +230,19 @@ app.get('/get-news',(req,res)=>{
   });
 })
 
+app.post('/update-post-image',(req,res)=>{
+  const sql = `UPDATE \`blog_post\` SET \`image_path\`='${req.body.image_path}' WHERE \`user_id\` = ${req.body.user_id}`
+
+  connection.query(sql, (error, results) => {
+    if (error) {
+      res.status(500).json({ error: 'Ошибка при выполнении запроса к базе данных' });
+      console.log(error.code, error.message);
+    } else {
+      res.send(results);
+    }
+  });
+})
+
 app.listen(port, () => {
   console.log(`Запущен на ${port} порту`);
 })

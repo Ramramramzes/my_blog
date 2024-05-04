@@ -28,6 +28,7 @@ export default defineConfig({
       '/like': SERVER,
       '/dislike': SERVER,
       '/get-likes': SERVER,
+      '/update-post-image': SERVER,
     }
   }
 })
