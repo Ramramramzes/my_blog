@@ -16,7 +16,6 @@ export function Blogline() {
   const navigation = useNavigate();
   const allPost = getPostDataById(Number(BlogState.viewId))
   const userData = getUser(Number(BlogState.viewId))
-
   const miniImage = {
     backgroundImage: `url(${BlogState.imagePath})`,
     backgroundSize: 'cover',
