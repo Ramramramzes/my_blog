@@ -14,7 +14,7 @@ export function News() {
 
   return (
     <>
-      <div>
+      <div className={styles.Header}>
         <Header />
       </div>
       <div>
