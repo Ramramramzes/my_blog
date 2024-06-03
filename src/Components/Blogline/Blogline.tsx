@@ -44,9 +44,9 @@ export function Blogline() {
         </li>
       )}
       {!BlogState.mainUserId && <button onClick={() => navigation('/')}>Войти</button>}
-      {BlogState.postData && BlogState.postData.map((el,index) => {
+      {BlogState.postData && BlogState.postData.map((el) => {
         return (
-          <li key={index} className={styles.listItem}>
+          <li key={el.post_id} className={styles.listItem}>
             <div className={styles.userInfo}>
               <div className={styles.userInfoPhotoBlock}>
                 <div style={miniImage} className={styles.userInfoPhoto}></div>

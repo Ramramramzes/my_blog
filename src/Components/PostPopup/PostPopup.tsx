@@ -26,9 +26,7 @@ export const PostPopup = () => {
     dispatch(changeAddPostText(event.target.value));
   }
 
-  function sendData() {
-    console.log(BlogState.mainLogin);
-    
+  function sendData() {    
     postNewPost(BlogState.addPostText,BlogState.mainUserId,BlogState.imagePath,BlogState.mainLogin);
     dispatch(changeAddPost())
     dispatch(changeAddPostText(''));
