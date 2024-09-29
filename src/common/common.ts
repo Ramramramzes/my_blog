@@ -4,3 +4,8 @@ export const  INITIAL_USER_DATA = {
   repeated: "",
   email: "",
 }
+
+export const  LOGIN_INITIAL_USER_DATA = { 
+  email: "",
+  password: "",
+}

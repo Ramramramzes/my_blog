@@ -4,3 +4,8 @@ export interface UserData {
   password: string;
   repeated: string;
 }
+
+export interface LoginUserData {
+  email: string;
+  password: string;
+}

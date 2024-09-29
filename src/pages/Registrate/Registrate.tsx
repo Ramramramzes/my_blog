@@ -127,6 +127,14 @@ export function Registrate() {
         >
           Регистрация
         </Button>
+        <Button
+          color="primary"
+          variant="contained"
+          type="submit"
+          onClick={() => navigation('/login')}
+          >
+            Войти
+        </Button>
       </Stack>
     </Stack>
   );
