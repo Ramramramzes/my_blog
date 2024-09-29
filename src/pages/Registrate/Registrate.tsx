@@ -53,6 +53,7 @@ export function Registrate() {
           name="username"
           value={formData.username}
           onChange={handleChange}
+          required={true}
         />
         <TextField
           label="Почта"
@@ -61,6 +62,7 @@ export function Registrate() {
           name="email"
           value={formData.email}
           onChange={handleChange}
+          required={true}
         />
         <TextField
           label="Пароль"
@@ -69,6 +71,7 @@ export function Registrate() {
           name="password"
           value={formData.password}
           onChange={handleChange}
+          required={true}
           slotProps={{
             input: {
               endAdornment: (
@@ -91,6 +94,7 @@ export function Registrate() {
           name="repeated"
           value={formData.repeated}
           onChange={handleChange}
+          required={true}
         />
         {showAlert && 
         <Alert
@@ -104,6 +108,7 @@ export function Registrate() {
         color="primary"
         variant="contained"
         type="submit"
+        disabled={showAlert}
         >
           Регистрация
         </Button>
