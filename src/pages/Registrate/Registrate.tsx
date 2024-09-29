@@ -2,7 +2,7 @@ import { Stack, TextField, Button, Alert, InputAdornment, IconButton } from "@mu
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import { ChangeEvent, useEffect, useState } from "react";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { UserData } from "../../interfaces/useUserApi";
+import { UserData } from "../../interfaces/users.ts";
 import { INITIAL_USER_DATA } from "../../common/common.ts"
 import { useUsersApi } from "../../hooks/useUsersApi";
 import { useNavigate } from "react-router-dom";
@@ -13,7 +13,7 @@ export function Registrate() {
   const [showPassword, setShowPassword] = useState(false);
   const navigation = useNavigate()
 
-  const { addUser, addUserError, addUserSuccess } = useUsersApi()
+  const { addUser, error, addUserSuccess } = useUsersApi()
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
@@ -41,19 +41,19 @@ export function Registrate() {
     if(addUserSuccess){
       navigation('/general')
     }
-  },[addUserSuccess, navigation])
+  },[addUserSuccess, error, navigation])
 
   return (
     <Stack
       direction={'column'}
       sx={{display: 'flex',height: '80vh', justifyContent: 'center', alignItems: 'center', gap: '20px'}}
       >
-        {addUserError && 
+        {error && 
         <Alert
           color="error"
           icon={<ErrorOutlineIcon />}
         >
-          {addUserError === 400 && 'Пользователь с таким Логином или Почтой существует'}
+          {error && error?.message}
         </Alert>
         }
       <Stack

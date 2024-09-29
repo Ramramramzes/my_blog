@@ -8,7 +8,8 @@ export default defineConfig({
   plugins: [react()],
   server: {
     proxy: {
-      '/addUser': proxyAuth
+      '/addUser': proxyAuth,
+      '/login': proxyAuth
     }
   }
 })

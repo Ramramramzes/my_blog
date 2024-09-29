@@ -1,14 +1,18 @@
 import { Visibility, VisibilityOff } from "@mui/icons-material"
-import { Button, IconButton, InputAdornment, Stack, TextField } from "@mui/material"
-import { ChangeEvent, useState } from "react";
-import { LoginUserData } from "../../interfaces/useUserApi";
+import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
+import { Alert, Button, IconButton, InputAdornment, Stack, TextField } from "@mui/material"
+import { ChangeEvent, useEffect, useState } from "react";
+import { LoginUserData } from "../../interfaces/users.ts";
 import { LOGIN_INITIAL_USER_DATA } from "../../common/common.ts";
 import { useNavigate } from "react-router-dom";
+import { useUsersApi } from "../../hooks/useUsersApi.ts";
 
 export const Login = () => {
   const [formData , setFormData] = useState<LoginUserData>(LOGIN_INITIAL_USER_DATA)
   const [showPassword, setShowPassword] = useState(false);
   const navigation = useNavigate()
+
+  const { checkUser, checkUserResult, error } = useUsersApi()
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target
@@ -21,14 +25,29 @@ export const Login = () => {
   
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    console.log(formData);
+    checkUser(formData)
   }
+
+  useEffect(() => {
+    if(checkUserResult){
+      navigation('/general')
+    }
+  },[checkUserResult, navigation])
 
   return (
     <Stack
       direction={'column'}
       sx={{display: 'flex',height: '80vh', justifyContent: 'center', alignItems: 'center', gap: '20px'}}
       >
+      {
+        error && 
+        <Alert
+        color="error"
+        icon={<ErrorOutlineIcon />}
+        >
+          {error && error?.message}
+        </Alert>
+      }
       <Stack
         component={'form'}
         direction={'column'} sx={{width: '30%', gap: '15px'}}
@@ -79,7 +98,7 @@ export const Login = () => {
           type="submit"
           onClick={() => navigation('/')}
           >
-            Регистрация
+            Зарегистрироваться
         </Button>
       </Stack>
     </Stack>
