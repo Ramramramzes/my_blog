@@ -1,19 +1,19 @@
-import { Stack, TextField, Box, Button, Alert, InputAdornment, IconButton } from "@mui/material";
+import { Stack, TextField, Button, Alert, InputAdornment, IconButton } from "@mui/material";
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import { ChangeEvent, useEffect, useState } from "react";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { UserData } from "../../interfaces/useUserApi";
+import { INITIAL_USER_DATA } from "../../common/common.ts"
+import { useUsersApi } from "../../hooks/useUsersApi";
+import { useNavigate } from "react-router-dom";
 
 export function Registrate() {
-  const [formData , setFormData] = useState(
-    { 
-      username: "",
-      password: "",
-      repeated: "",
-      email: "",
-    }
-  )
+  const [formData , setFormData] = useState<UserData>(INITIAL_USER_DATA)
   const [showAlert, setShowAlert] = useState(false)
   const [showPassword, setShowPassword] = useState(false);
+  const navigation = useNavigate()
+
+  const { addUser, addUserError, addUserSuccess } = useUsersApi()
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
@@ -26,7 +26,7 @@ export function Registrate() {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    console.log(formData)
+    addUser(formData)
   }
 
   useEffect(() => {
@@ -37,10 +37,25 @@ export function Registrate() {
     }
   },[formData])
 
+  useEffect(() => {
+    if(addUserSuccess){
+      navigation('/general')
+    }
+  },[addUserSuccess, navigation])
+
   return (
-    <Box
-      sx={{display: 'flex',height: '80vh', justifyContent: 'center', alignItems: 'center'}}
+    <Stack
+      direction={'column'}
+      sx={{display: 'flex',height: '80vh', justifyContent: 'center', alignItems: 'center', gap: '20px'}}
       >
+        {addUserError && 
+        <Alert
+          color="error"
+          icon={<ErrorOutlineIcon />}
+        >
+          {addUserError === 400 && 'Пользователь с таким Логином или Почтой существует'}
+        </Alert>
+        }
       <Stack
         component={'form'}
         direction={'column'} sx={{width: '30%', gap: '15px'}}
@@ -113,6 +128,6 @@ export function Registrate() {
           Регистрация
         </Button>
       </Stack>
-    </Box>
+    </Stack>
   );
 }
