@@ -1,10 +1,10 @@
 import { Route, Routes } from "react-router-dom"
-import { Login } from "./pages/Login"
+import { Registrate } from "./pages/Registrate/Registrate"
 
 export const App = () => {
   return (
     <Routes>
-      <Route path="/" element={<Login />} />
+      <Route path="/" element={<Registrate />} />
     </Routes>
   )
 }
