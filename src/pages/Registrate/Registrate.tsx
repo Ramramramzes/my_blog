@@ -1,5 +1,7 @@
-import { Stack, TextField, Box, Button } from "@mui/material";
-import { ChangeEvent, useState } from "react";
+import { Stack, TextField, Box, Button, Alert, InputAdornment, IconButton } from "@mui/material";
+import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
+import { ChangeEvent, useEffect, useState } from "react";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 export function Registrate() {
   const [formData , setFormData] = useState(
@@ -10,6 +12,12 @@ export function Registrate() {
       email: "",
     }
   )
+  const [showAlert, setShowAlert] = useState(false)
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleClickShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target
@@ -20,6 +28,14 @@ export function Registrate() {
     event.preventDefault()
     console.log(formData)
   }
+
+  useEffect(() => {
+    if (formData.password !== formData.repeated) {
+      setShowAlert(true)
+    }else{
+      setShowAlert(false)
+    }
+  },[formData])
 
   return (
     <Box
@@ -49,19 +65,41 @@ export function Registrate() {
         <TextField
           label="Пароль"
           variant="outlined"
-          type="password"
+          type={showPassword ? "text" : "password"}
           name="password"
           value={formData.password}
           onChange={handleChange}
+          slotProps={{
+            input: {
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={handleClickShowPassword}
+                  >
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            },
+          }}
         />
         <TextField
           label="Повторите пароль"
           variant="outlined"
-          type="password"
+          type={showPassword ? "text" : "password"}
           name="repeated"
           value={formData.repeated}
           onChange={handleChange}
         />
+        {showAlert && 
+        <Alert
+          color="error"
+          icon={<ErrorOutlineIcon />}
+        >
+          Пароли не совпадают
+        </Alert>
+        }
         <Button
         color="primary"
         variant="contained"
