@@ -9,7 +9,8 @@ export default defineConfig({
   server: {
     proxy: {
       '/addUser': proxyAuth,
-      '/login': proxyAuth
+      '/login': proxyAuth,
+      '/protected-route': proxyAuth,
     }
   }
 })

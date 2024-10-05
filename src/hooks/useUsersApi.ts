@@ -1,14 +1,13 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 import { useState } from "react";
 import axios from "axios";
 import { LoginUserData, UserData } from "../interfaces/users";
 
 export const useUsersApi = () => {
   const [loading, setLoading] = useState<boolean>(false);
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [error, setError] = useState<any>(null);
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [addUserSuccess, setAddUserSuccess] = useState<any>(null);
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [checkUserResult, setCheckUserResult] = useState<boolean>(false)
 
   const addUser = async (userData: UserData) => {
@@ -26,7 +25,8 @@ export const useUsersApi = () => {
 
       setAddUserSuccess(response.data);
       setError(null)
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      localStorage.setItem('accessToken', response.data.accessToken);
+      document.cookie = `refreshToken=${response.data.refreshToken}; path=/; max-age=${7 * 24 * 60 * 60};`;
     } catch (err: any) {
       setError(err?.response?.data);
     } finally {
@@ -48,9 +48,10 @@ export const useUsersApi = () => {
       
       if(response.status === 200){
         setCheckUserResult(true)
+        localStorage.setItem('accessToken', response.data.accessToken);
+        document.cookie = `refreshToken=${response.data.refreshToken}; path=/; max-age=${7 * 24 * 60 * 60};`;
         setError(null)
       }
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       setCheckUserResult(false)
       if (err) {
@@ -60,11 +61,13 @@ export const useUsersApi = () => {
       setLoading(false);
     }
   }
+
   return {
     loading,
     addUser,
     checkUser,
     checkUserResult,
     error,
-    addUserSuccess };
+    addUserSuccess,
+  };
 };
