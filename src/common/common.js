@@ -18,27 +18,16 @@ export const createPoolConnection = () => {
 }
 
 export const generateTokens = (user) => {
-  const payload = {id: user.id, email: user.email}
+  const payload = { id: user.id };
+  if (user.email) {
+    payload.email = user.email;
+  }
 
   const accessToken = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES_IN });
   const refreshToken = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: process.env.REFRESH_TOKEN_EXPIRES_IN });
   return { accessToken, refreshToken };
-}
-
-export const authenticateToken = (req, res, next) => {
-  const authHeader = req.headers['authorization'];
-  const token = authHeader && authHeader.split(' ')[1];
-
-  if (!token) return res.sendStatus(401);
-
-  jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-    if (err) return res.sendStatus(403);
-
-    req.user = user;
-    next();
-  });
 };
-
+// req.cookies
 export const tokenTimeParser = () => {
   const expiresIn = process.env.REFRESH_TOKEN_EXPIRES_IN;
   const timeFormat = expiresIn[expiresIn.length - 1];

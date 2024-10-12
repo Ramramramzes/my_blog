@@ -1,16 +1,16 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import dotenv from 'dotenv'
+dotenv.config();
 
-const proxyAuth = 'http://localhost:3000'
+const proxyAuth = `http://localhost:3030`;
 
-// https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
   server: {
     proxy: {
       '/addUser': proxyAuth,
       '/login': proxyAuth,
-      '/protected-route': proxyAuth,
     }
   }
 })
