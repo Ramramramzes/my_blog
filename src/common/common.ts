@@ -1,11 +1,8 @@
-export const  INITIAL_USER_DATA = { 
-  username: "",
-  password: "",
-  repeated: "",
-  email: "",
-}
-
-export const  LOGIN_INITIAL_USER_DATA = { 
-  email: "",
-  password: "",
+export const createConfig = () => {
+  return {
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${localStorage.getItem('accessToken')}`,
+    }
+  }
 }
