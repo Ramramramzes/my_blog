@@ -3,7 +3,7 @@ import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import { Alert, Button, IconButton, InputAdornment, Stack, TextField } from "@mui/material"
 import { ChangeEvent, useEffect, useState } from "react";
 import { LoginUserData } from "../../interfaces/users.ts";
-import { LOGIN_INITIAL_USER_DATA } from "../../common/common.ts";
+import { LOGIN_INITIAL_USER_DATA } from "../../const/constants.ts";
 import { useNavigate } from "react-router-dom";
 import { useUsersApi } from "../../hooks/useUsersApi.ts";
 
