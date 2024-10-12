@@ -3,13 +3,15 @@
 import { useState } from "react";
 import axios from "axios";
 import { LoginUserData, UserData } from "../interfaces/users";
+// import { createConfig } from "../common/common.ts"
 
 export const useUsersApi = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<any>(null);
   const [addUserSuccess, setAddUserSuccess] = useState<any>(null);
   const [checkUserResult, setCheckUserResult] = useState<boolean>(false)
-
+  // const config = createConfig();
+  
   const addUser = async (userData: UserData) => {
     setLoading(true);
     setAddUserSuccess(null);
@@ -49,7 +51,6 @@ export const useUsersApi = () => {
       if(response.status === 200){
         setCheckUserResult(true)
         localStorage.setItem('accessToken', response.data.accessToken);
-        document.cookie = `refreshToken=${response.data.refreshToken}; path=/; max-age=${7 * 24 * 60 * 60};`;
         setError(null)
       }
     } catch (err: any) {
