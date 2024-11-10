@@ -5,6 +5,8 @@ const { Pool } = pkg;
 
 dotenv.config();
 
+export const BASE_URL = process.env.BASE_URL
+
 export const createPoolConnection = () => {
   const pool = new Pool({
     user: process.env.DB_USER,
