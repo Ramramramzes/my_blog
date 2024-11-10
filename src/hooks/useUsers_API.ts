@@ -3,7 +3,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { LoginUserData, UserData } from "../interfaces/users";
-import { useAxios } from "./useAxios";
+import { useAxios } from "./useAxios_API";
 import { useNavigate } from "react-router-dom";
 
 export const useUsersApi = () => {
