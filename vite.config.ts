@@ -3,7 +3,13 @@ import react from '@vitejs/plugin-react'
 import dotenv from 'dotenv'
 dotenv.config();
 
-const proxyAuth = `http://localhost:3030`;
+if (!process.env.VITE_PROXY_AUTH || !process.env.VITE_PROXY_WS) {
+  throw new Error("Не удалось найти необходимые переменные окружения VITE_PROXY_AUTH или VITE_PROXY_WS");
+}
+
+const proxyAuth = process.env.VITE_PROXY_AUTH;
+const proxyWs = process.env.VITE_PROXY_WS;
+
 
 export default defineConfig({
   plugins: [react()],
@@ -12,6 +18,12 @@ export default defineConfig({
       '/addUser': proxyAuth,
       '/login-user': proxyAuth,
       '/logout': proxyAuth,
+      '/refresh-token': proxyAuth,
+      '/ws': {
+        target: proxyWs,
+        changeOrigin: true,
+        ws: true,
+      },
     }
   }
 })

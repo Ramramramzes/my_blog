@@ -4,10 +4,11 @@ import { v4 as uuidv4 } from 'uuid';
 import bcrypt from 'bcrypt'
 import { generateTokens, tokenTimeParser } from '../src/common/common.js';
 import jwt from 'jsonwebtoken'
-
+import dotenv from 'dotenv'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
 
+dotenv.config();
 const app = express();
 const port = process.env.AUTH_PORT;
 
@@ -34,57 +35,59 @@ async function writeRefreshToBD (userId, tokens) {
   }
 };
 
-//? authenticateToken проверяет жив ли access
-export const authenticateToken = async (req, res, next) => {
+export const authenticateToken = async (req,res) => {
   const authHeader = req.headers['authorization'];
+  
   const token = authHeader && authHeader.split(' ')[1];
+  
+  if (!token) throw new Error('Нет access токена');
 
-  if (!token) return res.sendStatus(401);
+  return new Promise((resolve, reject) => {
+    jwt.verify(token, process.env.JWT_SECRET, async (err, user) => {
+      if (err) {
+        if (err.name === 'TokenExpiredError') {
+          const refreshToken = req.cookies.refreshToken;
 
-  jwt.verify(token, process.env.JWT_SECRET, async (err, user) => {
-    if (err) {
-      if (err.name === 'TokenExpiredError') {
-        const refreshToken = req.cookies.refreshToken;
-        
-        if (!refreshToken) return res.sendStatus(403);
-
-        try {
-          const result = await pool.query(
-            'SELECT * FROM tokens WHERE refresh_token = $1 AND is_active = true',
-            [refreshToken]
-          );
-
-          const tokenRecord = result.rows[0];
-          if (!tokenRecord || new Date(tokenRecord.expires_at) < new Date()) {
-            return res.sendStatus(403);
+          if (!refreshToken) {
+            reject(new Error('Нет refresh токена'));
+            return;
           }
 
-          const newTokens = generateTokens({ id: tokenRecord.user_id });
-          await writeRefreshToBD(tokenRecord.user_id, newTokens.refreshToken);
+          try {
+            const result = await pool.query(
+              'SELECT * FROM tokens WHERE refresh_token = $1 AND is_active = true',
+              [refreshToken]
+            );
 
-          res.cookie('refreshToken', newTokens.refreshToken, {
-            httpOnly: true,
-            sameSite: 'Strict',
-            maxAge: 24 * 60 * 60 * 1000
-          });
-          
-          return res.json({ accessToken: newTokens.accessToken });
-        } catch (error) {
-          console.error('Ошибка при проверке refresh токена:', error);
-          return res.sendStatus(500);
+            const tokenRecord = result.rows[0];
+            if (!tokenRecord || new Date(tokenRecord.expires_at) < new Date()) {
+              reject(new Error('Рефреш токен протух'));
+              return;
+            }
+
+            const newTokens = generateTokens({ id: tokenRecord.user_id });
+            await writeRefreshToBD(tokenRecord.user_id, newTokens.refreshToken);
+
+            req.newRefreshToken = newTokens.refreshToken;
+            resolve(newTokens.accessToken); // Возвращаем новый accessToken
+          } catch (error) {
+            console.error('Ошибка при проверке refresh токена:', error);
+            reject(new Error('Ошибка при проверке refresh токена'));
+          }
+        } else {
+          reject(new Error('Невалидный access токен'));
         }
       } else {
-        return res.sendStatus(403);
+        resolve(token);
       }
-    }
-    next();
+    });
   });
 };
 
 //! Функции для auth с бд ==========================>>>>>>>>
 
 app.use(cors({
-  origin: 'http://localhost:5173',
+  origin: process.env.CORSE_URL,
   credentials: true,
 }));
 
@@ -191,6 +194,25 @@ app.post('/logout', async (req, res) => {
   }
 });
 
+app.post('/refresh-token', async (req, res) => {
+  try {
+    const newAccessToken = await authenticateToken(req);
+
+    if (req.newRefreshToken) {
+      res.cookie('refreshToken', req.newRefreshToken, {
+        httpOnly: true,
+        sameSite: 'Strict',
+        maxAge: 24 * 60 * 60 * 1000,
+      });
+    }
+
+    res.json({ accessToken: newAccessToken });
+  } catch (error) {
+    console.error('Ошибка при обновлении токена:', error.message);
+    res.status(403).json({ message: error.message });
+  }
+});
+
 app.listen(port, () => {
-  console.log(`Сервер работает на http://localhost:${port}`);
+  console.log(`Сервер работает на BASE_URL:AUTH_PORT`);
 });

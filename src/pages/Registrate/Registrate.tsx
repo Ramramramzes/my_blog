@@ -4,7 +4,7 @@ import { ChangeEvent, useEffect, useState } from "react";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { UserData } from "../../interfaces/users.ts";
 import { INITIAL_USER_DATA } from "../../const/constants.ts"
-import { useUsersApi } from "../../hooks/useUsersApi";
+import { useUsersApi } from "../../hooks/useUsers_API.ts";
 import { useNavigate } from "react-router-dom";
 
 export function Registrate() {
