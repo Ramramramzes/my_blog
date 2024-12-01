@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react';
 import { useAxios } from './useAxios_API';
 
 export const Ws = () => {
-  const [messages, setMessages] = useState<Array<{ message: string }>>([{ message: '' }]);
+  const [postData, setPostData] = useState([]);
+  const [postAddStatus, setPostAddStatus] = useState({});
   const [ws, setWs] = useState<WebSocket | null>(null);
   const axiosInstance = useAxios();
   const WS_URL = import.meta.env.VITE_WS_API
@@ -35,17 +36,29 @@ export const Ws = () => {
         setWs(socket);
       };
 
+      //? Функция получени сообщений с бека, обрабатываем по разным статусам message.action
       socket.onmessage = (event) => {
         try {
           const message = JSON.parse(event.data);
+          //todo Добавить алерт при ошибке
+          if (message?.error ) console.log(message.error);
+          //todo===========================================
 
-          if (message && typeof message.message === 'string') {
-            setMessages((prevMessages) => [...prevMessages, message]);
-          } else {
-            console.warn('Некорректный формат сообщения:', message);
+          switch (message.action) {
+            case 'post_get':
+              setPostData(message.data);
+              break;
+            case 'post_add':
+              setPostAddStatus(message.data);
+              break;
+            default:
+              console.log('Неизвестное сообщение:', message);
           }
+
         } catch (error) {
+          //todo Добавить алерт при ошибке
           console.error('Ошибка при парсинге сообщения:', error);
+          //todo===========================================
         }
       };
 
@@ -61,11 +74,16 @@ export const Ws = () => {
     };
   }, []);
 
-  const sendMessage = (id: number) => {
+  //? Функция отправки запроса поста на бек ==>
+  const sendPost = (post: string) => {
     if (ws && ws.readyState === WebSocket.OPEN) {
-      ws.send(JSON.stringify({ action: 'action', postId: id }));
+      ws.send(JSON.stringify({ action: 'post_add', post: post }));
     }
-  };
+  }
 
-  return { messages, sendMessage };
+  return { 
+    sendPost,
+    postData,
+    postAddStatus,
+  };
 };

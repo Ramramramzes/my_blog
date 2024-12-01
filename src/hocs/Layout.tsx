@@ -8,7 +8,7 @@ export const Layout = ({children}) => {
       <Sidebar />
       <Stack direction={'column'} width={'100%'}>
         <Header />
-        <Container maxWidth={'md'} sx={{backgroundColor:'red'}}>
+        <Container maxWidth={'md'}>
           {children}
         </Container>
       </Stack>
