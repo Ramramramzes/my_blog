@@ -6,13 +6,14 @@ import { LoginUserData } from "../../interfaces/users.ts";
 import { LOGIN_INITIAL_USER_DATA } from "../../const/constants.ts";
 import { useNavigate } from "react-router-dom";
 import { useUsersApi } from "../../hooks/useUsers_API.ts";
+import { useUser } from "../../hocs/UserData.tsx";
 
 export const Login = () => {
   const [formData , setFormData] = useState<LoginUserData>(LOGIN_INITIAL_USER_DATA)
   const [showPassword, setShowPassword] = useState(false);
   const navigation = useNavigate()
-
   const { checkUser, checkUserResult, error } = useUsersApi()
+  const { setUserData } = useUser()
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target
@@ -23,9 +24,10 @@ export const Login = () => {
     setShowPassword(!showPassword);
   };
   
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async(event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    checkUser(formData)
+    const response = await checkUser(formData)
+    setUserData(response?.data?.userId)
   }
 
   useEffect(() => {

@@ -31,6 +31,7 @@ export const useUsersApi = () => {
       setError(null)
       localStorage.setItem('accessToken', response.data.accessToken);
       document.cookie = `refreshToken=${response.data.refreshToken}; path=/; max-age=${7 * 24 * 60 * 60};`;
+      return response
     } catch (err: any) {
       setError(err?.response?.data);
     } finally {
@@ -54,6 +55,7 @@ export const useUsersApi = () => {
         setCheckUserResult(true)
         localStorage.setItem('accessToken', response.data.accessToken);
         setError(null)
+        return response
       }
     } catch (err: any) {
       setCheckUserResult(false)

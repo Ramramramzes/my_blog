@@ -6,13 +6,14 @@ import { UserData } from "../../interfaces/users.ts";
 import { INITIAL_USER_DATA } from "../../const/constants.ts"
 import { useUsersApi } from "../../hooks/useUsers_API.ts";
 import { useNavigate } from "react-router-dom";
+import { useUser } from "../../hocs/UserData.tsx";
 
 export function Registrate() {
   const [formData , setFormData] = useState<UserData>(INITIAL_USER_DATA)
   const [showAlert, setShowAlert] = useState(false)
   const [showPassword, setShowPassword] = useState(false);
   const navigation = useNavigate()
-
+  const { setUserData } = useUser()
   const { addUser, error, addUserSuccess } = useUsersApi()
 
   const handleClickShowPassword = () => {
@@ -24,9 +25,10 @@ export function Registrate() {
     setFormData({...formData, [name]: value })
   }
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async(event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    addUser(formData)
+    const response = await addUser(formData)
+    setUserData(response?.data?.userId)
   }
 
   useEffect(() => {
