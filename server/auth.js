@@ -36,7 +36,7 @@ async function writeRefreshToBD (userId, tokens) {
 };
 
 export const authenticateToken = async (req,res) => {
-  const authHeader = req.headers['authorization'];
+  const authHeader = req.headers['authorization'];  
   
   const token = authHeader && authHeader.split(' ')[1];
   
@@ -64,8 +64,8 @@ export const authenticateToken = async (req,res) => {
               reject(new Error('Рефреш токен протух'));
               return;
             }
-
-            const newTokens = generateTokens({ id: tokenRecord.user_id });
+            
+            const newTokens = generateTokens({id: tokenRecord.user_id, email: tokenRecord.email});
             await writeRefreshToBD(tokenRecord.user_id, newTokens.refreshToken);
 
             req.newRefreshToken = newTokens.refreshToken;
@@ -117,7 +117,7 @@ app.post('/addUser', async (req, res) => {
       maxAge: 24 * 60 * 60 * 1000
     });
 
-    res.json({ accessToken: tokens.accessToken });
+    res.json({ accessToken: tokens.accessToken, userId: userId });
 
   } catch (error) {
     if (error.code === '23505') {
@@ -149,14 +149,14 @@ app.post('/login-user', async (req, res) => {
       res.status(401).send({status: 401, message:'Неверный пароль'});
       return;
     }else{
-      const tokens = generateTokens({id:user.id, email:user.email})
+      const tokens = generateTokens({id:user.user_id, email:user.email})
       await writeRefreshToBD(user.user_id, tokens.refreshToken)
       res.cookie('refreshToken', tokens.refreshToken, {
         httpOnly: true,
         sameSite: 'Strict',
         maxAge: 24 * 60 * 60 * 1000
       });
-      return res.json({ accessToken: tokens.accessToken });
+      return res.json({ accessToken: tokens.accessToken, userId: user.user_id });
     }
   } catch (error) {
     res.status(500).send({status: 500, message:'Ошибка сервера'});
@@ -205,8 +205,8 @@ app.post('/refresh-token', async (req, res) => {
         maxAge: 24 * 60 * 60 * 1000,
       });
     }
-
-    res.json({ accessToken: newAccessToken });
+    
+    res.json({ accessToken: newAccessToken, userId:jwt.decode(newAccessToken).id});
   } catch (error) {
     console.error('Ошибка при обновлении токена:', error.message);
     res.status(403).json({ message: error.message });

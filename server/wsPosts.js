@@ -14,7 +14,7 @@ wss.on('connection', (ws, req) => {
   
   (async () => {
     const response = await pool.query({ 
-      text: 'SELECT * FROM posts'
+      text: 'SELECT * FROM posts ORDER BY created_at DESC'
     });
     
     ws.send(JSON.stringify({
@@ -31,7 +31,7 @@ wss.on('connection', (ws, req) => {
       try {
         const response = await pool.query(
           `INSERT INTO posts (post_id, user_id, content) VALUES ($1, $2, $3) RETURNING *`,
-          [post_id, 'типо user_id', data.post]
+          [post_id,  data.user_id , data.post]
         );
 
         if (response.rowCount > 0) {
@@ -72,7 +72,7 @@ wss.on('connection', (ws, req) => {
 
   setInterval(async() => {
     const response = await pool.query({ 
-      text: 'SELECT * FROM posts'
+      text: 'SELECT * FROM posts ORDER BY created_at DESC'
     })
 
     ws.send(JSON.stringify({
