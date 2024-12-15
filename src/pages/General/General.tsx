@@ -3,14 +3,15 @@ import { Layout } from "../../hocs/Layout";
 import { Ws } from "../../hooks/useWs_API";
 import React, { useEffect, useState } from "react";
 import SendIcon from '@mui/icons-material/Send';
+import { useUser } from "../../hocs/UserData";
 // import { useTheme } from "../../hocs/useTheme";
 
 
 export const General = () => {
   const {sendPost , postData, postAddStatus} = Ws()
   // const { theme } = useTheme()
+  const { user } = useUser();
   const [newPost, setNewpost] = useState('')
-
   const handlePostChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setNewpost(event.target.value)
   }
@@ -38,7 +39,7 @@ export const General = () => {
         <Button 
           variant="contained"
           endIcon={<SendIcon />}
-          onClick={() => sendPost(newPost)}>
+          onClick={() => sendPost(newPost, user)}>
           Опубликовать
         </Button>
       </Stack>

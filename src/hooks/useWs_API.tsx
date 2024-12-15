@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useAxios } from './useAxios_API';
+import { useUser } from '../hocs/UserData';
 
 export const Ws = () => {
   const [postData, setPostData] = useState([]);
@@ -7,6 +8,7 @@ export const Ws = () => {
   const [ws, setWs] = useState<WebSocket | null>(null);
   const axiosInstance = useAxios();
   const WS_URL = import.meta.env.VITE_WS_API
+  const { setUserData } = useUser();  
 
   useEffect(() => {
     const refreshAccessToken = async () => {
@@ -15,7 +17,8 @@ export const Ws = () => {
           '/refresh-token',
           {},
         );
-        return response.data.accessToken;
+        return {accessToken: response.data.accessToken, userId: response.data.userId};
+        
       } catch (error) {
         console.error('Ошибка при обновлении токена:', error);
         return null;
@@ -23,7 +26,9 @@ export const Ws = () => {
     };
 
     const connectWebSocket = async () => {
-      const accessToken = await refreshAccessToken();
+      const { accessToken, userId} = await refreshAccessToken();
+      
+      setUserData(userId)
       if (!accessToken) {
         console.error('Не удалось получить новый accessToken. Подключение к WebSocket отменено.');
         return;
@@ -75,9 +80,9 @@ export const Ws = () => {
   }, []);
 
   //? Функция отправки запроса поста на бек ==>
-  const sendPost = (post: string) => {
+  const sendPost = (post: string, user_id: string) => {
     if (ws && ws.readyState === WebSocket.OPEN) {
-      ws.send(JSON.stringify({ action: 'post_add', post: post }));
+      ws.send(JSON.stringify({ action: 'post_add', post: post, user_id: user_id}));
     }
   }
 
