@@ -4,22 +4,24 @@ import { Ws } from "../../hooks/useWs_API";
 import React, { useEffect, useState } from "react";
 import SendIcon from '@mui/icons-material/Send';
 import { useUser } from "../../hocs/UserData";
+import { UpdateBtns } from "./testUpdateBtns";
 // import { useTheme } from "../../hocs/useTheme";
 
 
 export const General = () => {
-  const {sendPost , postData, postAddStatus} = Ws()
+  const {sendPost , updatePost, postData, postStatus} = Ws()
   // const { theme } = useTheme()
   const { user } = useUser();
-  const [newPost, setNewpost] = useState('')
+  const [newPost, setNewPost] = useState('')
   const handlePostChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setNewpost(event.target.value)
+    setNewPost(event.target.value)
   }
 
   useEffect(() => {
-    console.log(postData);
-    console.log('Это статус =>', postAddStatus);
-  },[postData, postAddStatus])
+    // console.log(postData);
+    // console.log('Это статус =>', postStatus);
+    console.log(newPost)
+  },[postData, postStatus, newPost, setNewPost])
 
 
   return (
@@ -47,6 +49,13 @@ export const General = () => {
         {postData.map((post, index) => (
           <Stack key={index} direction={'row'} width={'100%'} border={'1px solid'}>
             {post.post_id} ___ {post.content}
+            <UpdateBtns 
+              updatePost={updatePost}
+              post={post}
+              user={user}
+              newPost={newPost}
+              setNewPost={setNewPost}
+            />
           </Stack>
         ))}
       </Stack>
