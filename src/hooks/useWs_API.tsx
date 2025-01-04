@@ -4,7 +4,7 @@ import { useUser } from '../hocs/UserData';
 
 export const Ws = () => {
   const [postData, setPostData] = useState([]);
-  const [postAddStatus, setPostAddStatus] = useState({});
+  const [postStatus, setPostStatus] = useState({});
   const [ws, setWs] = useState<WebSocket | null>(null);
   const axiosInstance = useAxios();
   const WS_URL = import.meta.env.VITE_WS_API
@@ -51,10 +51,14 @@ export const Ws = () => {
 
           switch (message.action) {
             case 'post_get':
+              console.log(message)
               setPostData(message.data);
               break;
             case 'post_add':
-              setPostAddStatus(message.data);
+              setPostStatus(message.data);
+              break;
+            case 'post_update':
+              setPostStatus(message.data);
               break;
             default:
               console.log('Неизвестное сообщение:', message);
@@ -86,9 +90,16 @@ export const Ws = () => {
     }
   }
 
+  const updatePost = (post: string, user_id: string, post_id: string) => {
+    if (ws && ws.readyState === WebSocket.OPEN) {
+      ws.send(JSON.stringify({ action: 'post_update', post: post, user_id: user_id, post_id: post_id}));
+    }
+  }
+
   return { 
     sendPost,
     postData,
-    postAddStatus,
+    postStatus,
+    updatePost
   };
 };
