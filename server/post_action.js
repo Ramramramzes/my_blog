@@ -14,8 +14,8 @@ export const post_add = async(data, ws, pool) => {
 
   try {
     const response = await pool.query(
-      `INSERT INTO posts (post_id, user_id, content) VALUES ($1, $2, $3) RETURNING *`,
-      [post_id,  data.user_id , data.post]
+      `INSERT INTO posts (post_id, user_id, content, username) VALUES ($1, $2, $3, $4) RETURNING *`,
+      [post_id,  data.user_id , data.post, data.username]
     );
 
     if (response.rowCount > 0) {
