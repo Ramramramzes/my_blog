@@ -84,9 +84,9 @@ export const Ws = () => {
   }, []);
 
   //? Функция отправки запроса поста на бек ==>
-  const sendPost = (post: string, user_id: string) => {
+  const sendPost = (post: string, data: any) => {
     if (ws && ws.readyState === WebSocket.OPEN) {
-      ws.send(JSON.stringify({ action: 'post_add', post: post, user_id: user_id}));
+      ws.send(JSON.stringify({ action: 'post_add', post: post, user_id: data.user_id, username: data.username }));
     }
   }
 
