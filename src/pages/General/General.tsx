@@ -4,14 +4,18 @@ import { Ws } from "../../hooks/useWs_API";
 import React, { useEffect, useState } from "react";
 import SendIcon from '@mui/icons-material/Send';
 import { useUser } from "../../hocs/UserData";
-import { UpdateBtns } from "./testUpdateBtns";
+import { Post } from "../../UI/Post";
 // import { useTheme } from "../../hocs/useTheme";
 
 
 export const General = () => {
-  const {sendPost , updatePost, postData, postStatus} = Ws()
+  const {
+    sendPost,
+    postData,
+    // postStatus
+  } = Ws()
   // const { theme } = useTheme()
-  const { user } = useUser();
+  const { allUserData } = useUser();
   const [newPost, setNewPost] = useState('')
   const handlePostChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setNewPost(event.target.value)
@@ -20,8 +24,7 @@ export const General = () => {
   useEffect(() => {
     // console.log(postData);
     // console.log('Это статус =>', postStatus);
-    console.log(newPost)
-  },[postData, postStatus, newPost, setNewPost])
+  },[])
 
 
   return (
@@ -41,22 +44,13 @@ export const General = () => {
         <Button 
           variant="contained"
           endIcon={<SendIcon />}
-          onClick={() => sendPost(newPost, user)}>
+          onClick={() => sendPost(newPost, allUserData)}>
           Опубликовать
         </Button>
       </Stack>
       <Stack>
         {postData.map((post, index) => (
-          <Stack key={index} direction={'row'} width={'100%'} border={'1px solid'}>
-            {post.post_id} ___ {post.content}
-            <UpdateBtns 
-              updatePost={updatePost}
-              post={post}
-              user={user}
-              newPost={newPost}
-              setNewPost={setNewPost}
-            />
-          </Stack>
+          <Post post={post} key={index}/>
         ))}
       </Stack>
     </Layout>
