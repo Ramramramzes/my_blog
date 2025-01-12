@@ -213,6 +213,30 @@ app.post('/refresh-token', async (req, res) => {
   }
 });
 
+app.get('/get-user', async (req, res) => {
+  const { user_id } = req.query;
+
+  if (!user_id) {
+    return res.status(400).json({ error: 'user_id является обязательным параметром' });
+  }
+
+  try {
+    const response = await pool.query(
+      'SELECT * FROM users WHERE user_id = $1',
+      [user_id]
+    );
+
+    if (response.rows.length === 0) {
+      return res.status(404).json({ error: 'Пользователь не найден' });
+    }
+    
+    res.json(response.rows[0]);
+  } catch (error) {
+    console.error('Ошибка при получении данных пользователя:', error);
+    res.status(500).json({ error: 'Ошибка сервера' });
+  }
+});
+
 app.listen(port, () => {
-  console.log(`Сервер работает на BASE_URL:AUTH_PORT`);
+  console.log(`Сервер работает на ${port}`);
 });
