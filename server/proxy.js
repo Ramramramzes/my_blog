@@ -21,5 +21,5 @@ app.use('/ws', createProxyMiddleware({
 }));
 
 app.listen(port, () => {
-    console.log(`Прокси-сервер запущен на порту PROXY_PORT`);
+    console.log(`Прокси-сервер запущен на порту ${port}`);
 });

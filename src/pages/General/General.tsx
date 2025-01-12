@@ -4,22 +4,27 @@ import { Ws } from "../../hooks/useWs_API";
 import React, { useEffect, useState } from "react";
 import SendIcon from '@mui/icons-material/Send';
 import { useUser } from "../../hocs/UserData";
+import { Post } from "../../UI/Post";
 // import { useTheme } from "../../hocs/useTheme";
 
 
 export const General = () => {
-  const {sendPost , postData, postAddStatus} = Ws()
+  const {
+    sendPost,
+    postData,
+    // postStatus
+  } = Ws()
   // const { theme } = useTheme()
-  const { user } = useUser();
-  const [newPost, setNewpost] = useState('')
+  const { allUserData } = useUser();
+  const [newPost, setNewPost] = useState('')
   const handlePostChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setNewpost(event.target.value)
+    setNewPost(event.target.value)
   }
 
   useEffect(() => {
-    console.log(postData);
-    console.log('Это статус =>', postAddStatus);
-  },[postData, postAddStatus])
+    // console.log(postData);
+    // console.log('Это статус =>', postStatus);
+  },[])
 
 
   return (
@@ -39,15 +44,13 @@ export const General = () => {
         <Button 
           variant="contained"
           endIcon={<SendIcon />}
-          onClick={() => sendPost(newPost, user)}>
+          onClick={() => sendPost(newPost, allUserData)}>
           Опубликовать
         </Button>
       </Stack>
       <Stack>
         {postData.map((post, index) => (
-          <Stack key={index} direction={'row'} width={'100%'} border={'1px solid'}>
-            {post.post_id} ___ {post.content}
-          </Stack>
+          <Post post={post} key={index}/>
         ))}
       </Stack>
     </Layout>

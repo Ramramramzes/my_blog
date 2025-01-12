@@ -19,6 +19,7 @@ export default defineConfig({
       '/login-user': proxyAuth,
       '/logout': proxyAuth,
       '/refresh-token': proxyAuth,
+      '/get-user': proxyAuth,
       '/ws': {
         target: proxyWs,
         changeOrigin: true,

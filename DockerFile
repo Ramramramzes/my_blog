@@ -1,0 +1,15 @@
+# Используем официальный образ PostgreSQL
+FROM postgres:15
+
+# Аргументы для передачи значений из .env
+ARG DB_USER
+ARG DB_PASSWORD
+ARG DB_NAME
+
+# Установка переменных окружения для PostgreSQL
+ENV POSTGRES_USER=${DB_USER}
+ENV POSTGRES_PASSWORD=${DB_PASSWORD}
+ENV POSTGRES_DB=${DB_NAME}
+
+# Копируем SQL-скрипт для инициализации базы данных (опционально)
+COPY init.sql /docker-entrypoint-initdb.d/
