@@ -10,46 +10,50 @@ const port = process.env.WS_PORT;
 const wss = new Server({ port: port }); 
 const pool = createPoolConnection();
 
-(async () => {
-  const client = await pool.connect();
-  console.log('Подключение к PostgreSQL успешно.');
+//? Подписка на триггер
+// (async () => {
+//   const client = await pool.connect();
+//   console.log('Подключение к PostgreSQL успешно.');
 
-  try {
-    await client.query('LISTEN post_changes');
-    console.log('Подписка на канал post_changes выполнена.');
+//   try {
+//     await client.query('LISTEN post_changes');
+//     console.log('Подписка на канал post_changes выполнена.');
 
-    client.on('notification', async (msg) => {
-      if (msg.channel === 'post_changes') {
-        try {
-          const payload = JSON.parse(msg.payload);
-          console.log('Изменение в базе данных:', payload);
+//     client.on('notification', async (msg) => {
+//       if (msg.channel === 'post_changes') {
+//         try {
+//           const payload = JSON.parse(msg.payload);
+//           console.log('Изменение в базе данных:', payload);
 
-          const response = await pool.query('SELECT * FROM posts ORDER BY created_at DESC');
-          wss.clients.forEach((client) => {
-            if (client.readyState === WebSocket.OPEN) {
-              client.send(JSON.stringify({
-                action: 'post_get',
-                data: response.rows,
-              }));
-            }
-          });
-          console.log('Обновлённые данные отправлены всем клиентам.');
-        } catch (err) {
-          console.error('Ошибка обработки уведомления:', err);
-        }
-      }
-    });
+//           const response = await pool.query('SELECT * FROM posts ORDER BY created_at DESC');
+//           wss.clients.forEach((client) => {
+//             if (client.readyState === WebSocket.OPEN) {
+//               client.send(JSON.stringify({
+//                 action: 'post_get',
+//                 data: response.rows,
+//               }));
+//             }
+//           });
+//           console.log('Обновлённые данные отправлены всем клиентам.');
+//         } catch (err) {
+//           console.error('Ошибка обработки уведомления:', err);
+//         }
+//       }
+//     });
 
-    client.on('error', (err) => {
-      console.error('Ошибка клиента PostgreSQL (уведомления):', err.stack);
-    });
-  } catch (err) {
-    console.error('Ошибка подписки на уведомления:', err.stack);
-    client.release();
-  }
-})();
+//     client.on('error', (err) => {
+//       console.error('Ошибка клиента PostgreSQL (уведомления):', err.stack);
+//     });
+//   } catch (err) {
+//     console.error('Ошибка подписки на уведомления:', err.stack);
+//     client.release();
+//   }
+// })();
 
 wss.on('connection', (ws) => {
+  //? Обновление данных каждые 10 секунд
+  setInterval(broadcastPosts,10000);
+
   console.log('Клиент подключен');
   console.log(`Общее количество клиентов: ${wss.clients.size}`);
 
@@ -119,3 +123,23 @@ wss.on('connection', (ws) => {
 });
 
 console.log(`WebSocket сервер запущен на порту ${port}`);
+
+  // Функция для получения и отправки данных всем клиентам
+  const broadcastPosts = async () => {
+    try {
+      const response = await pool.query('SELECT * FROM posts ORDER BY created_at DESC');
+      const data = JSON.stringify({
+        action: 'post_get',
+        data: response.rows,
+      });
+  
+      wss.clients.forEach((client) => {
+        if (client.readyState === client.OPEN) {
+          client.send(data);
+        }
+      });
+      console.log('Обновленные данные отправлены всем клиентам.');
+    } catch (err) {
+      console.error('Ошибка при обновлении данных:', err.stack);
+    }
+  };
