@@ -55,7 +55,7 @@ export function Registrate() {
           color="error"
           icon={<ErrorOutlineIcon />}
         >
-          {error && error?.message}
+          {error}
         </Alert>
         }
       <Stack
