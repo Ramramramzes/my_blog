@@ -8,23 +8,17 @@ if (!process.env.VITE_PROXY_AUTH || !process.env.VITE_PROXY_WS) {
 }
 
 const proxyAuth = process.env.VITE_PROXY_AUTH;
-const proxyWs = process.env.VITE_PROXY_WS;
 
 
 export default defineConfig({
   plugins: [react()],
   server: {
     proxy: {
-      '/addUser': proxyAuth,
+      '/add-user': proxyAuth,
       '/login-user': proxyAuth,
       '/logout': proxyAuth,
       '/refresh-token': proxyAuth,
       '/get-user': proxyAuth,
-      '/ws': {
-        target: proxyWs,
-        changeOrigin: true,
-        ws: true,
-      },
     }
   }
 })

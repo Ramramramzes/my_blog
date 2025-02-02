@@ -14,11 +14,6 @@ app.use('/auth', createProxyMiddleware({
     changeOrigin: true,
 }));
 
-app.use('/ws', createProxyMiddleware({
-    target: `${BASE_URL}:${wsPort}`,
-    changeOrigin: true,
-    ws: true,
-}));
 
 app.listen(port, () => {
     console.log(`Прокси-сервер запущен на порту ${port}`);
