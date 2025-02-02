@@ -47,7 +47,7 @@ export const Login = () => {
         color="error"
         icon={<ErrorOutlineIcon />}
         >
-          {error && error?.message}
+          {error}
         </Alert>
       }
       <Stack

@@ -1,17 +1,13 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unused-expressions */
 import { useState } from "react";
-import axios from "axios";
 import { LoginUserData, UserData } from "../interfaces/users";
-import { useAxios } from "./useAxios_API";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 export const useUsersApi = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<any>(null);
   const [addUserSuccess, setAddUserSuccess] = useState<any>(null);
   const [checkUserResult, setCheckUserResult] = useState<boolean>(false)
-  const axiosInstance = useAxios();
   const navigation = useNavigate()
   
   const addUser = async (userData: UserData) => {
@@ -20,7 +16,7 @@ export const useUsersApi = () => {
     setError(null);
 
     try {
-      const response = await axios.post("/addUser", userData, {
+      const response = await axios.post("/add-user", userData, {
         timeout: 5000,
         headers: {
           "Content-Type": "application/json",
@@ -33,7 +29,9 @@ export const useUsersApi = () => {
       document.cookie = `refreshToken=${response.data.refreshToken}; path=/; max-age=${7 * 24 * 60 * 60};`;
       return response
     } catch (err: any) {
-      setError(err?.response?.data);
+      setError(err?.response.data?.message);
+      console.log(err);
+      
     } finally {
       setLoading(false);
     }
@@ -41,7 +39,6 @@ export const useUsersApi = () => {
 
   const checkUser = async (loginUserData: LoginUserData) => {
     setLoading(true);
-
     try {
       const response = await axios.post("/login-user", loginUserData, {
         timeout: 5000,
@@ -49,7 +46,6 @@ export const useUsersApi = () => {
           "Content-Type": "application/json",
         },
       });
-
       
       if(response.status === 200){
         setCheckUserResult(true)
@@ -60,7 +56,7 @@ export const useUsersApi = () => {
     } catch (err: any) {
       setCheckUserResult(false)
       if (err) {
-        setError(err?.response?.data);
+        setError(err?.response?.data?.message);
         logout()
       }
     } finally {
@@ -70,7 +66,7 @@ export const useUsersApi = () => {
 
   const logout = async () => {
     try {
-      const response = await axiosInstance.post("/logout",{})
+      const response = await axios.post("/logout",{})
 
       if (response.status === 200) {
           localStorage.removeItem('accessToken');

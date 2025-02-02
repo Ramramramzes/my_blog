@@ -6,6 +6,7 @@ import { RequireAuth } from "./hocs/RequireAuth";
 import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider } from "./hocs/useTheme";
 import { UserProvider } from "./hocs/UserData";
+import { ProfilePage } from "./pages/ProfilePage/ProfilePage";
 
 export const App = () => {
   return (
@@ -16,6 +17,7 @@ export const App = () => {
         <Routes>
           <Route path="/" element={<Registrate />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/profile" element={<ProfilePage />} />
           <Route
             path="/general"
             element={

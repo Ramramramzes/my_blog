@@ -1,5 +1,5 @@
-import axios from "axios";
 import { createContext, useContext, useState, ReactNode, useEffect } from "react";
+import { useAxios } from "../hooks/useAxios_API";
 
 interface UserContextType {
   user: string | null;
@@ -16,11 +16,12 @@ interface UserProviderProps {
 export const UserProvider = ({ children }: UserProviderProps) => {
   const [user, setUser] = useState<string | null>(null);
   const [allUserData, setAllUserData] = useState(null);
+  const axiosInstance = useAxios();
 
     useEffect(() => {
       const fetchUser = async () => {
         try {
-          const response = await axios.get(`/get-user?user_id=${user}`);
+          const response = await axiosInstance.get(`/get-user?user_id=${user}`);
           setAllUserData(response.data);
         } catch (error) {
           console.error("Ошибка при загрузке текущего пользователя:", error);
