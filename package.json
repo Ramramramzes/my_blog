@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite & nodemon ./server/proxy.js & nodemon ./server/auth.js & nodemon ./server/wsPosts.js",
+    "dev": "vite & nodemon ./server/proxy.js & nodemon ./server/auth.js & nodemon ./server/posts.js",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"
